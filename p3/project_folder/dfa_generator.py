@@ -25,9 +25,13 @@ def generate_random_dfa(num_states, accept_prob=0.2):
         'transitions': transitions
     }
 
-def generate_random_dfa_satisfying_spec(num_states):
+def generate_random_dfa_satisfying_spec(num_states, verbose=False):
     """
     Generates a random DFA D with 'num_states' states that satisfies the specification S.
+    
+    Args:
+        num_states: Number of states in the generated DFA
+        verbose: Whether to print debug information
     """
     alphabet = SPEC_DFA['alphabet']
     dfa_states = [f"s{i}" for i in range(num_states)]
@@ -54,13 +58,17 @@ def generate_random_dfa_satisfying_spec(num_states):
                 shadows[chosen] = q
     
     # CRITICAL CHECK: Confirm initial state mapping
-    print(f"Initial state s0 shadows: {shadows['s0']}")
+    if verbose:
+        print(f"Initial state s0 shadows: {shadows['s0']}")
+        
     if shadows['s0'] != SPEC_DFA['initial_state']:
-        print("WARNING: Initial state not mapping to initial state!")
+        if verbose:
+            print("WARNING: Initial state not mapping to initial state!")
     
     # Shadow mapping validation
-    shadow_counts = {q: sum(1 for s in shadows.values() if s == q) for q in SPEC_DFA['states']}
-    print(f"Shadow distribution: {shadow_counts}")
+    if verbose:
+        shadow_counts = {q: sum(1 for s in shadows.values() if s == q) for q in SPEC_DFA['states']}
+        print(f"Shadow distribution: {shadow_counts}")
     
     transitions = {}
     for s in dfa_states:
@@ -88,8 +96,9 @@ def generate_random_dfa_satisfying_spec(num_states):
     
     # Verify this DFA actually satisfies the spec
     result = check_suffix_inclusion(dfa)
-    print(f"Generated DFA satisfies spec? {result}")
-    if not result:
-        print("ERROR: Generated DFA does not satisfy the specification!")
+    if verbose:
+        print(f"Generated DFA satisfies spec? {result}")
+        if not result:
+            print("ERROR: Generated DFA does not satisfy the specification!")
     
     return dfa

@@ -2,8 +2,9 @@ import argparse
 import random
 import numpy as np
 from tqdm import tqdm
-from utils import process_dfa, save_results_to_csv, calculate_statistics
+from utils import process_dfa, save_results_to_csv, calculate_statistics, process_dfas_in_parallel
 from visualization import graph_results
+import multiprocessing
 
 def main():
     parser = argparse.ArgumentParser(
@@ -28,6 +29,10 @@ def main():
                         help="Output file for the graph image")
     parser.add_argument("--log_scale", action="store_true", default=True,
                         help="Plot results using log-log scale")
+    parser.add_argument("--parallel", action="store_true", default=True,
+                        help="Enable parallel processing")
+    parser.add_argument("--max_workers", type=int, default=None,
+                        help="Maximum number of worker processes for parallel execution")
     args = parser.parse_args()
     
     random.seed(args.seed)
@@ -44,26 +49,50 @@ def main():
         modes = [args.satisfy_spec]
         mode_names = ["non-satisfying" if not args.satisfy_spec else "satisfying"]
     
+    # Print CPU information
+    cpu_count = multiprocessing.cpu_count()
+    max_workers = args.max_workers if args.max_workers is not None else cpu_count
+    print(f"System has {cpu_count} CPU cores available.")
+    print(f"Using up to {max_workers} worker processes for parallel execution.")
+    
     # Process DFAs for each mode
     for mode_idx, satisfy_spec in enumerate(modes):
         mode_name = mode_names[mode_idx]
         results = []
-        overall_times = []
         
         print(f"\nProcessing {mode_name} DFAs:")
         
-        # Process DFAs sequentially
-        total_dfas = len(sizes) * num_dfas_per_size
-        pbar = tqdm(total=total_dfas, desc=f"Processing {mode_name} DFAs")
-        
-        for size in sizes:
-            for index in range(num_dfas_per_size):
-                size, result, elapsed = process_dfa(size, satisfy_spec, args.accept_prob)
-                results.append([size, index + 1, result, elapsed, mode_name])
-                overall_times.append(elapsed)
-                print(f"DFA with {size} states, index {index + 1}: Satisfies spec? {result}, Time = {elapsed:.6f} seconds")
-                pbar.update(1)
-        pbar.close()
+        if args.parallel:
+            # Process DFAs in parallel
+            print(f"Using parallel processing with up to {max_workers} workers")
+            
+            # We don't use tqdm here because process_dfas_in_parallel handles all sizes at once
+            results = process_dfas_in_parallel(
+                sizes, 
+                num_dfas_per_size, 
+                satisfy_spec, 
+                args.accept_prob,
+                mode_name,
+                max_workers
+            )
+            
+            # Extract elapsed times for overall statistics
+            overall_times = [row[3] for row in results]
+            
+        else:
+            # Process DFAs sequentially (original method)
+            overall_times = []
+            total_dfas = len(sizes) * num_dfas_per_size
+            pbar = tqdm(total=total_dfas, desc=f"Processing {mode_name} DFAs")
+            
+            for size in sizes:
+                for index in range(num_dfas_per_size):
+                    size, result, elapsed = process_dfa(size, satisfy_spec, args.accept_prob)
+                    results.append([size, index + 1, result, elapsed, mode_name])
+                    overall_times.append(elapsed)
+                    print(f"DFA with {size} states, index {index + 1}: Satisfies spec? {result}, Time = {elapsed:.6f} seconds")
+                    pbar.update(1)
+            pbar.close()
         
         # Calculate statistics for this mode
         stats = calculate_statistics(results)
