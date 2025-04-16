@@ -229,7 +229,7 @@ def generate_random_nfa(num_states: int, alphabet: str) -> dict:
 # Testing and Timing
 # --------------------------
 def run_tests(num_trials=30):  # Run each size multiple times
-    test_sizes = [1000, 5000, 10000, 25000, 50000, 100000, 250000, 500000]
+    test_sizes = [1000, 5000, 10000, 25000]#, 50000, 100000, 250000, 500000]
     all_results = []
     
     for size in test_sizes:
@@ -340,10 +340,23 @@ def analyze_results(all_results, test_sizes):
     
     # Plot 2: Log-log plot to identify complexity class
     plt.subplot(2, 1, 2)
-    plt.loglog(test_sizes, means, 'o-')
+    plt.loglog(test_sizes, means, 'o-', label='Measured times')
+    
+    # Calculate complexity using linear regression on log-log data
+    log_sizes = np.log(test_sizes)
+    log_times = np.log(means)
+    slope, intercept = np.polyfit(log_sizes, log_times, 1)
+    r_squared = np.corrcoef(log_sizes, log_times)[0, 1]**2
+    
+    # Generate fitted line for visualization
+    fit_line = np.exp(intercept) * np.array(test_sizes)**slope
+    plt.loglog(test_sizes, fit_line, 'r--', 
+               label=f'Fitted line: O(n^{slope:.2f}), R² = {r_squared:.4f}')
+    
     plt.xlabel('Number of states (log scale)')
     plt.ylabel('Time (log scale)')
     plt.title('Log-Log Plot to Identify Computational Complexity')
+    plt.legend()
     plt.grid(True)
     
     plt.tight_layout()
@@ -352,6 +365,27 @@ def analyze_results(all_results, test_sizes):
     # Print summary statistics
     print("\nSummary Statistics:")
     print("==================")
+    
+    # Print complexity analysis
+    print("\nComplexity Analysis:")
+    print("==================")
+    print(f"Measured complexity: O(n^{slope:.4f})")
+    print(f"R-squared value: {r_squared:.4f}")
+    
+    # Interpret the complexity class
+    if 0.8 <= slope <= 1.2:
+        complexity = "approximately linear - O(n)"
+    elif 1.8 <= slope <= 2.2:
+        complexity = "approximately quadratic - O(n²)"
+    elif 2.8 <= slope <= 3.2:
+        complexity = "approximately cubic - O(n³)"
+    else:
+        complexity = f"O(n^{slope:.2f})"
+    
+    print(f"Algorithm appears to be {complexity}")
+    print(f"Coefficient of determination (R²): {r_squared:.4f}")
+    print(f"The R² value indicates how well the power law model fits the data (closer to 1.0 is better)")
+    
     for i, size in enumerate(test_sizes):
         times = [r[2] for r in all_results[i]]
         finite_count = sum(1 for r in all_results[i] if r[1])
