@@ -1,0 +1,1317 @@
+%%
+%% This is file `sample-sigconf-authordraft.tex',
+%% generated with the docstrip utility.
+%%
+%% The original source files were:
+%%
+%% samples.dtx  (with options: `all,proceedings,bibtex,authordraft')
+%% 
+%% IMPORTANT NOTICE:
+%% 
+%% For the copyright see the source file.
+%% 
+%% Any modified versions of this file must be renamed
+%% with new filenames distinct from sample-sigconf-authordraft.tex.
+%% 
+%% For distribution of the original source see the terms
+%% for copying and modification in the file samples.dtx.
+%% 
+%% This generated file may be distributed as long as the
+%% original source files, as listed above, are part of the
+%% same distribution. (The sources need not necessarily be
+%% in the same archive or directory.)
+%%
+%%
+%% Commands for TeXCount
+%TC:macro \cite [option:text,text]
+%TC:macro \citep [option:text,text]
+%TC:macro \citet [option:text,text]
+%TC:envir table 0 1
+%TC:envir table* 0 1
+%TC:envir tabular [ignore] word
+%TC:envir displaymath 0 word
+%TC:envir math 0 word
+%TC:envir comment 0 0
+%%
+%%
+%% The first command in your LaTeX source must be the \documentclass
+%% command.
+%%
+%% For submission and review of your manuscript please change the
+%% command to \documentclass[manuscript, screen, review]{acmart}.
+%%
+%% When submitting camera ready or to TAPS, please change the command
+%% to \documentclass[sigconf]{acmart} or whichever template is required
+%% for your publication.
+%%
+%%
+%\documentclass[sigconf,review]{acmart}
+\documentclass[sigconf,anonymous,review]{acmart}
+\usepackage{listings}
+\usepackage{graphicx}
+\usepackage{float}
+
+%%
+%% \BibTeX command to typeset BibTeX logo in the docs
+\AtBeginDocument{%
+  \providecommand\BibTeX{{%
+    Bib\TeX}}}
+
+
+
+%% Rights management information.  This information is sent to you
+%% when you complete the rights form.  These commands have SAMPLE
+%% values in them; it is your responsibility as an author to replace
+%% the commands and values with those provided to you when you
+%% complete the rights form.
+
+
+%% These commands are for a PROCEEDINGS abstract or paper.
+%%
+%%  Uncomment \acmBooktitle if the title of the proceedings is different
+%%  from ``Proceedings of ...''!
+%%
+%%\acmBooktitle{Woodstock '18: ACM Symposium on Neural Gaze Detection,
+%%  June 03--05, 2018, Woodstock, NY}
+
+
+
+%%
+%% Submission ID.
+%% Use this when submitting an article to a sponsored event. You'll
+%% receive a unique submission ID from the organizers
+%% of the event, and this ID should be used as the parameter to this command.
+%%\acmSubmissionID{123-A56-BU3}
+
+%%
+%% For managing citations, it is recommended to use bibliography
+%% files in BibTeX format.
+%%
+%% You can then either use BibTeX with the ACM-Reference-Format style,
+%% or BibLaTeX with the acmnumeric or acmauthoryear sytles, that include
+%% support for advanced citation of software artefact from the
+%% biblatex-software package, also separately available on CTAN.
+%%
+%% Look at the sample-*-biblatex.tex files for templates showcasing
+%% the biblatex styles.
+%%
+
+%%
+%% The majority of ACM publications use numbered citations and
+%% references.  The command \citestyle{authoryear} switches to the
+%% "author year" style.
+%%
+%% If you are preparing content for an event
+%% sponsored by ACM SIGGRAPH, you must use the "author year" style of
+%% citations and references.
+%% Uncommenting
+%% the next command will enable that style.
+%%\citestyle{acmauthoryear}
+
+
+%%
+%% end of the preamble, start of the body of the document source.
+\begin{document}
+
+
+%%
+%% The "title" command has an optional parameter,
+%% allowing the author to define a "short title" to be used in page headers.
+\title{Group 15: Efficient Suffix Detection and Formal Language Analysis via Automata and Grammars}
+
+%%
+%% The "author" command and its associated commands are used to define
+%% the authors and their affiliations.
+%% Of note is the shared affiliation of the first two authors, and the
+%% "authornote" and "authornotemark" commands
+%% used to denote shared contribution to the research.
+\author{Bryan Almeida Betancourt}
+\authornote{Both authors contributed equally to this research.}
+\email{bryan.almeida@westpoint.edu}
+\affiliation{%
+  \institution{United States Military Academy}
+  \city{West Point}
+  \state{New York}
+  \country{USA}
+}
+
+\author{Hunter Mamawal}
+\authornote{Both authors contributed equally to this research.}
+\email{hunter.mamawal@westpoint.edu}
+\affiliation{%
+  \institution{United States Military Academy}
+  \city{West Point}
+  \state{New York}
+  \country{USA}
+}
+
+
+%%
+%% By default, the full list of authors will be used in the page
+%% headers. Often, t      
+%% the author to define a more concise list
+%% of authors' names for this purpose.
+\renewcommand{\shortauthors}{Trovato et al.}
+
+%%
+%% The abstract is a short summary of the work to be presented in the
+%% article.
+\begin{abstract}
+  This paper investigates the classification of languages as either regular or context-free, with a particular focus on suffix-based conditions and computational models that operate on partial segments of input strings. We begin by laying out the formal languages under consideration and then provide a concise background on automata theory, context-free grammars, and the fundamental definitions guiding our analysis. Four primary proofs are presented—each accompanied by detailed justification—to illustrate patterns of regularity in suffix detection and the transformation of context-free grammars into Chomsky Normal Form. Leveraging these insights, we implement an algorithmic framework to validate the closure properties of several language families under suffix operations. We then examine four related proofs that target context-free languages specifically, showcasing the nuanced ways in which suffix constraints can preserve or disrupt context-free structure. Extending these ideas further, we analyze two pushdown or Turing machine–based constructions that process “half” of a string to highlight how partial parsing techniques can detect palindromic or balanced substrings. Finally, we discuss the broader implications of these findings for language classification, enumerate potential applications of the results, and outline directions for future work in automata-driven language analysis.
+\end{abstract}
+
+%%
+%% The code below is generated by the tool at http://dl.acm.org/ccs.cfm.
+%% Please copy and paste the code instead of the example below.
+%%
+\begin{CCSXML}
+<ccs2012>
+ <concept>
+  <concept_id>00000000.0000000.0000000</concept_id>
+  <concept_desc>Do Not Use This Code, Generate the Correct Terms for Your Paper</concept_desc>
+  <concept_significance>500</concept_significance>
+ </concept>
+ <concept>
+  <concept_id>00000000.00000000.00000000</concept_id>
+  <concept_desc>Do Not Use This Code, Generate the Correct Terms for Your Paper</concept_desc>
+  <concept_significance>300</concept_significance>
+ </concept>
+ <concept>
+  <concept_id>00000000.00000000.00000000</concept_id>
+  <concept_desc>Do Not Use This Code, Generate the Correct Terms for Your Paper</concept_desc>
+  <concept_significance>100</concept_significance>
+ </concept>
+ <concept>
+  <concept_id>00000000.00000000.00000000</concept_id>
+  <concept_desc>Do Not Use This Code, Generate the Correct Terms for Your Paper</concept_desc>
+  <concept_significance>100</concept_significance>
+ </concept>
+</ccs2012>
+\end{CCSXML}
+
+
+%% This command processes the author and affiliation and title
+%% information and builds the first part of the formatted document.
+\maketitle
+
+\section{INTRODUCTION}
+Regular expressions play an important role in text search, as they allow for pattern matching (Sipser, p. 63). Buchi Automata Services (BAS) seeks to determine whether the acronym "AC0" appears as a suffix in a given string.
+
+This paper uses finite automata and an algorithmic method to address this problem. We construct a regular expression that ensures "AC0" does not appear as a suffix, design a Deterministic Finite Automaton (DFA), and develop algorithms for analyzing DFAs and Non-deterministic Finite Automata (NFAs) that follow the constraints of the problem.
+
+The following sections outline our approach: Section 3 covers the background research we conducted, Section 4 defines key terms, Section 5 presents our solutions to sub-problems that collectively address the problem statement given above, Section 6 provides our experimental results for the solutions presented in Section 5, Section 7 discusses these results, and finally Section 8 presents our future work.
+
+\section{BACKGROUND} \label{Background}
+This project aims to explore the field of regular expressions, DFAs, NFAs, and related algorithms. This section summarizes the research and background of the above-mentioned topics.
+
+String matching is a commonly studied area in computer science, with applications in projects such as text processing. Automata-based algorithms, such as the Knuth–Morris–Pratt (KMP) and Boyer–Moore methods, laid the groundwork for efficient string matching. Recent work by Faro and Scafiti introduced the Range Automation, enhancing efficiency in exact string matching \cite{FARO202288}.
+
+The use of DFAs in string matching has significantly increased the efficiency of string-searching algorithms by eliminating the overhead of repeatedly scanning the text on mismatches. DFA-based string-searching algorithms can leverage the deterministic nature of finite automata to achieve faster matching by constructing a finite automaton for the desired pattern, which, in our case, is finding certain suffixes within a string. By creating a DFA, each character or symbol is read only once, eliminating the need to backtrack—an issue common in brute-force algorithms. The work by Ejendibia and Braidam demonstrates both the implementation of a DFA for string searches and its historical use in Unix system tools such as \texttt{grep}, owing to the significantly lower computational overhead compared to brute-force methods \cite{ejendibia_string_2015}.
+
+Further expanding on DFA-based approaches to suffix detection, Singh and Goyal propose an algorithmic method for constructing DFAs that accept strings ending with a particular suffix \cite{kamalpreet_algorithm_2019}. Their algorithm systematically generates a transition table from the given suffix and alphabet, allowing direct acceptance or rejection of an input string based on whether it ends in the specified pattern. This emphasis on building suffix-based DFAs aligns closely with our goal of detecting the suffix “AC0” or its reversal in a given string, as we can apply many of the same principles to create and analyze automata.
+
+Our research builds on these foundations to create solutions for detecting the suffix “AC0” or its reversal in a given string.
+
+To streamline our implementation and simplify the structure of our context‐free grammar, we convert the original CFG into Chomsky Normal Form (CNF). This conversion restructures the grammar so that every production is either of the form
+\[
+A \to BC
+\]
+or
+\[
+A \to a,
+\]
+or
+\[
+S \to \epsilon
+\]
+thereby reducing complexity and facilitating the implementation of efficient parsing algorithms. In our case, the CFG is designed to generate strings that adhere to specific rules about suffix types and counts. By translating it into CNF, we obtain a standardized and simplified form that eases further analysis and enhances the efficiency of our algorithmic processing. The formalization of this transformation is detailed in \cite{ramos_formalization_2015}.
+
+Pushdown automata (PDAs) are the standard model for recognizing context‐free languages (CFLs). Although PDAs can capture many essential language features, CFLs are known to be closed under union, concatenation, and the Kleene star—but not under intersection or complementation. In other words, even if two CFLs are recognized by PDAs, their intersection may not be context-free. 
+\[
+\{ a^n b^n c^n \mid n \ge 0 \}
+\]
+is not context-free, thereby establishing that CFLs (and by extension PDAs) are not closed under intersection.
+A particularly fascinating development in the theory of context-free languages, which further
+illustrates the power and elegance of PDAs, is the result by Colbourn, Dougherty, Lidbetter,
+and Shallit~\cite{colbourn_counting_2018} showing that the language \(L_{x=y}\)---the set
+of all strings containing equally many subword occurrences of two given substrings \(x\) and
+\(y\)---is not just context-free, but also \emph{deterministic} context-free. Conceptually,
+one can construct a deterministic PDA whose states keep track of recent symbols (up to the
+length of \(x\) or \(y\)) while a single counter-like stack stores the difference between the
+number of occurrences of \(x\) and \(y\). This allows the automaton to ``check off'' each new
+occurrence of \(x\) or \(y\) as the input is read, ensuring they remain balanced by the time
+the entire string is consumed. Even though we do not provide an explicit grammar here, the
+underlying idea is that the PDA's control mechanism can handle possible overlaps of \(x\)
+and \(y\) (much like how other string-search automata deal with partial matches), and
+\emph{deterministically} accept exactly those strings whose counts of \(x\) and \(y\) coincide.
+I find this result incredibly exciting because it elegantly generalizes the classic example of
+counting symbols, thereby reinforcing the versatility of pushdown automata in capturing
+nuanced combinatorial properties of strings.
+
+\section{DEFINITIONS AND NOTATIONS}
+Below are important symbols that will be used in the paper: 
+\begin{enumerate}{}
+    \item The Star – "*" – indicates that the string it is attached to can appear zero or a finite amount of times.
+    \item The Or symbol – "|" – indicates that the string or terminals in a context-free grammar to the left or the right can exist, but not both simultaneously.
+\end{enumerate}
+\section{REGULAR EXPRESSIONS AND FINITE AUTOMATA}
+Throughout this project, regular expressions (REGEX) are formal notations used to represent a set of strings over an alphabet. These will be used to represent solutions for some of the problems presented \cite{sipser_introduction_2013}. Regular expressions, by definition, represent regular languages, meaning that a REGEX can be converted into a finite automaton. Consequently, if a regular expression defines a language, then by the properties of regular languages, we can transform the REGEX into an NFA or a DFA.
+
+\subsection{Claim 1}
+ We can create a regular expression for all strings over the alphabet {0, A, C} that do NOT contain AC0 as a suffix
+The answer is as follows:
+\begin{align*}
+    R = &\; \epsilon \; | \; (0 \mid A \mid C) \; | \; (0 \mid A \mid C)(0 \mid A \mid C) \; | \\
+        &\; (0 \mid A \mid C)^* \Big( (0 \mid A \mid C)(0 \mid A \mid C)(A \mid C) \\
+        &\quad \; \Big| \; (0 \mid A \mid C)(0 \mid A) 0 \\
+        &\quad \; \Big| \; (0 \mid C) C0 \Big)
+\end{align*}
+
+\begin{enumerate}
+  \item \textbf{Short Strings:} 
+  Any string of length 0, 1, or 2 over the alphabet \(\{0,A,C\}\) cannot end with \texttt{AC0} (since that pattern has length 3). Therefore, we explicitly include
+  \[
+    \epsilon, \quad (0 \mid A \mid C), \quad (0 \mid A \mid C)^2
+  \]
+  to cover all such short strings.
+
+  \item \textbf{Longer Strings:} 
+  For strings of length at least 3, let the final three characters be \(x y z\). We need \((x,y,z)\neq (A,C,0)\). 
+  Since there are \(3^3=27\) possible triples in \(\{0,A,C\}^3\) and only one of them is \((A,C,0)\), there remain \(27-1=26\) valid triples. We group these 26 possibilities into:
+  \begin{itemize}
+    \item \((0 \mid A \mid C)(0 \mid A \mid C)(A \mid C)\): last character is in \(\{A,C\}\);
+    \item \((0 \mid A \mid C)(0 \mid A)0\): last character is 0 but the middle character is in \(\{0,A\}\) (so we cannot have \(AC0\));
+    \item \((0 \mid C)C0\): covers any triple ending in \(C0\) where the first character is either \(0\) or \(C\).
+  \end{itemize}
+  Since these three subsets together capture exactly \textit{all} 3-character endings except \texttt{AC0}, we ensure that the suffix \texttt{AC0} never appears.
+
+  \item \textbf{Prefix of Any Length:}
+  For any longer string, the first \(|w|-3\) characters form a prefix in \((0 \mid A \mid C)^*\). Concatenating such a prefix with one of the 26 valid 3-character endings yields exactly the set of all longer strings that do not end in \texttt{AC0}.
+\end{enumerate}
+
+Since these two cases (short strings and longer strings) account for \textbf{all} strings that do not end with \texttt{AC0}, the given regular expression $R$ is both correct and complete.
+
+
+
+\subsection{Claim 2}
+
+We can create a minimized DFA that has the language of all strings over the alphabet {0, A, C} that contain either AC0 or its reversal as a suffix.
+The answer is as follows:
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.5\textwidth]{dfa.png} % Adjust width as needed
+    \caption{DFA that accepts strings with the suffix "AC0" or "0CA"}
+    \label{fig:my_label}
+\end{figure}
+
+Let \(L= {w\in \{0, A, C\}*:\) the last three characters of w are either "AC0" or "0CA"} and supposed D is the DFA constructed to only accept strings with the proper suffixes. We prove that L(D) = L 
+\cite{kamalpreet_algorithm_2019}.
+
+\begin{enumerate}
+    \item \(L(D) \subseteq L\) \\
+    By design, D will only accept a string w if, and only if the sequence "\texttt{AC0}" or "\texttt{0CA}" appears at the very end of the string. Throughout the computation of the DFA, we may enter the accept state several times, but if we are not at the end of the string, then the sequence to track the suffix begins again. Therefore, since the only strings that the DFA representing \(L(D)\) accepts are only those that have the suffix "\texttt{AC0}" or "\texttt{0CA}" which are strings that can be created by \(L\). Therefore \(L(D)\) is a subset of \(L\)
+    
+    \item \(L \subseteq L(D) \) \\
+    Let \(W\) be any string that ends in "\texttt{AC0}" or "\texttt{0CA}" which are strings in \in \(L\). Since \(D\) can only accept strings within the alphabet \{0, A, C\} that have a suffix "\texttt{AC0}" or "\texttt{0CA}" every string \in \(L\) will be accepted by \(L(D)\) because the string \(W\) will always end with an "\texttt{AC0}" or "\texttt{0CA}". Either of those sequences of letters would make place the DFA of \(L(D)\) into an accept. Therefore, any string in L is accepted by D, so \(w \in L(D)\).
+
+\end{enumerate}
+
+By combining both of these proofs it can be concluded that \(L(D) = L\). This, D is indeed recognizes exactly strings that end in "AC0" or "0CA." 
+
+\subsection{DFA and NFA Algorithms} \label{DFA and NFA Algorithms}
+Here, we describe and design an algorithm that, given a DFA
+
+\[D=(Q_D,\Sigma, \delta_D,q_{0_D}, F_D\)]
+
+over the alphabet
+
+\[\Sigma=\{0,A,C\}\]
+
+determines if $D$ accepts any string that ends with either the suffix "AC0" or its reversal "0CA". The approach follows the logic presented by the Easy Theory YouTube channel and adheres to naming conventions defined in the PySimpleAutomata Python library documentation.\footnote{PySimpleAutomata. "A Python library to manage Deterministic Finite Automata (DFA), Nondeterministic Finite Automata (NFA), and Alternating Finite Automata (AFW)". Available at: \url{https://pysimpleautomata.readthedocs.io/}}
+\newline
+\textbf{Algorithm for Checking if $L(D)\subseteq L(S)$:}
+\begin{enumerate}
+    \item \textbf{Define Specification DFA, $S$:}
+    Define
+    \[S=(Q_D,\Sigma,\delta_D,q_{0_s},F_S)\]
+    over the alphabet 
+    \[\Sigma=\{0,A,C\}\] 
+    that accepts any string that ends with either the suffix "AC0" or its reversal "0CA."
+    \item \textbf{Complementing the DFA $S$:}
+    Define $S'$ as the complement of $S$, obtained by swapping the accepting and non-accepting states. In our implementation, this is done using the \texttt{dfa\_complementation} function from the PySimpleAutomata package.
+    \begin{itemize}
+        \item \textbf{Explanation:}
+        The function iterates over each state in $Q_S$ to toggle its accepting status. 
+        \item \textbf{Time complexity:}
+        $O(|Q_S|)$
+    \end{itemize}
+    \item \textbf{Intersecting $D$ with $S'$:}
+    Construct a product DFA representing the intersection of $D$ and $S'$. In this product, each state is a pair $(q_d, q_s)$ where $(q_d \in Q_D)$ and $ q_s \in Q_S $, with transitions defined as: 
+    \[
+    \delta((q_d, q_s), a) = (\delta_D(q_d, a), \delta_S(q_s, a))
+    \]
+    for every symbol \( a \in \Sigma \). This is performed using the \newline$dfa\_intersection$ function from PySimpleAutomata.
+    \begin{itemize}
+        \item \textbf{Time Complexity:} The product DFA has \( |Q_D| \times |Q_S| \) states. If \( |Q_S| \) is a constant (as is common when \( S \) is constructed to recognize a fixed suffix pattern), the complexity simplifies to \( O(|Q_D|) \).
+    \end{itemize}
+    \item \textbf{Non-Emptiness Check:}
+    Check if the product DFA (which accepts the intersection \( L(D) \cap L(S') \)) accepts any string. This is equivalent to verifying whether there exists a string accepted by \( D \) but rejected by \( S \). The check is implemented via the \texttt{dfa\_nonemptiness\_check} function, which uses a breadth-first search (BFS) starting from the initial state \( (q_{0_D}, q_{0_S}) \) of the product DFA.
+    \begin{itemize}
+        \item \textbf{Explanation:} The BFS explores all reachable states from \( (q_{0_D}, q_{0_S}) \) until an accepting state is found or all states are examined.
+        \item \textbf{Time Complexity:} In general, this is \( O(|Q_D| \times |Q_S|) \), and under the assumption that \( |Q_S| \) is constant, it reduces to \( O(|Q_D|) \).
+    \end{itemize}
+    \item \textbf{Decision Criteria:}
+    \begin{itemize}
+        \item If the intersection DFA accepts at least one string, then there exists a string that is accepted by \( D \) and rejected by \( S \); hence, \( L(D) \not\subseteq L(S) \).
+        \item If the intersection DFA accepts no strings, then every string accepted by \( D \) is also accepted by \( S \), implying \( L(D) \subseteq L(S) \).
+    \end{itemize}
+\end{enumerate}
+\textbf{Overall Time Complexity:}
+Assuming $|Q_S|$ is constant, each step in the process runs in $O(|Q_D|)$ time, yielding an overall worst-case complexity of $O(|Q_D|)$.
+\newline\newline
+This method leverages the closure properties of regular languages under complementation and itnersection, as discussed in the Easy Theory video \textit{How to check if a DFA satisfies a specification (SUB\_DFA)}\footnote{Easy Theory. (2020, April 5). \textit{How to check if a DFA satisfies a specification (SUB\_DFA)}. YouTube. Available at: \url{https://www.youtube.com/watch?v=SvrCSZXESA8}}.\newline
+
+ \noindent Next, we will determine whether a given NFA, $N$, accepts only a finite number of strings that do \textit{not} end with either “AC0” or its reversal “0CA”. In addition, we analyze the algorithm and derive its worst-case time complexity.
+\newline
+\textbf{Algorithm Description:}
+\begin{enumerate} 
+    \item \textbf{Convert NFA to DFA:}
+    Begin by converting the NFA $N = (Q_N,\Sigma, \delta_N, q_{0_N}, F_N)$ into an equivalent DFA \newline$D=(Q_D,\Sigma, \delta_D, q_{0_D}, F_D)$ using the powerset (subset) construction. This produces a DFA whose states correspond to subsets of $Q_N$. The worst-case time complexity for this conversion is $O(|Q_N|\times 2^{|Q_N|}$.\footnote{Easy Theory, “Conversion of NFA to DFA,” YouTube, Jun. 12, 2020. \url{https://youtu.be/PPiebTISJBk?si=u5XYEWBgaHMd6vbz} (accessed Feb. 18, 2025).} The powerset run time is $O(|Q|\times 2^{|Q|})$.\footnote{Scott Hahn, “Explanation of \(O(n \times 2^n)\) time complexity for powerset generation", Computer Science Stack Exchange, Jul. 29, 2020. \url{https://cs.stackexchange.com/a/121328}, (accessed Feb. 18, 2025).}
+
+    \item \textbf{Construct the Suffix DFA:}  
+    Next, build a DFA \( S \) that accepts all strings over the alphabet \( \Sigma = \{0, A, C\} \) having either “AC0” or “0CA” as a suffix. Since the language of these specific suffixes is regular (as shown in Problem 6), \( S \) is a regular DFA. The DFA \( S \) is designed for a fixed pattern and thus has a constant number of states.
+    
+    \item \textbf{Complement the Suffix DFA:}  
+    To capture strings that \textit{do not} have the desired suffix, create \( S' \), the complement of \( S \). This is achieved by swapping the accepting and non-accepting states of \( S \). Because every state in \( S \) must be processed, the complementation step takes \( O(|Q_S|) \) time\footnote{Easy Theory, “Regular Languages Closed Under Complement Proof,” YouTube, May 29, 2020. \url{https://youtu.be/Zq_aakGIIiM?si=ISnzfq0zm3aVoK1A} (accessed Feb. 18, 2025).}.
+    
+    \item \textbf{Compute the Intersection DFA:}  
+    Form the product DFA \( I \) representing the intersection of \( D \) and \( S' \). In this product DFA, each state is a pair \( (q_d, q_s) \) with \( q_d \in Q_D \) and \( q_s \in Q_S \), and transitions are defined by:
+    \[
+    \delta((q_d, q_s), a) = (\delta_D(q_d, a), \delta_S(q_s, a))
+    \]
+    for each symbol \( a \in \Sigma \). The DFA \( I \) accepts exactly those strings that \( D \) accepts while not having the desired suffix. Since the state space of \( I \) is \( |Q_D| \times |Q_S| \) and \( |Q_S| \) is constant, this step runs in \( O(|Q_D|) \) time.
+    
+    \item \textbf{Determine Finite Acceptance:}  
+    To decide whether \( I \) accepts only finitely many strings, analyze the structure of \( I \). A DFA’s language is infinite if there is a reachable cycle that can be traversed repeatedly, thereby generating arbitrarily long strings. The steps are as follows:
+    \begin{enumerate}
+        \item Identify and remove states that are not reachable from the start state \( (q_{0_D}, q_{0_S}) \).
+        \item Discard states from which no accepting state can be reached.
+        \item Examine the remaining transition graph for cycles.
+    \end{enumerate}
+    This cycle detection can be implemented using breadth-first search (BFS) or depth-first search (DFS) with a time complexity of \( O(|Q_I|) \), where \( |Q_I| \) is the number of states in \( I \). If no cycle exists, then \( L(I) \) is finite.
+
+\end{enumerate}
+\textbf{Overall Time Complexity:}
+Let $n=|Q_N|$ denote the number of states in the original NFA. The conversion from NFA to DFA is the dominating step with a worst-case complexity of $O(n \times 2^n)$. Therefore, the overall algorithm runs in $O(n \times 2^n)$ time.
+
+\subsection{Turing Machine Design for Suffix Detection}
+
+Although our earlier DFA/NFA constructions address the recognition of strings ending in either "AC0" or "0CA," we also demonstrate a Turing machine design that specifically accepts strings with the suffix "AC0." This focused TM example illustrates the universality of our approach and shows that even a general-purpose model can implement suffix detection effectively. Our TM operates by scanning the input from left to right and "remembering" the last three symbols via maintaining certain states. Upon encountering the blank symbol (denoting the input’s end), the machine accepts if and only if the final three symbols are A, C, and 0, respectively.
+
+More formally, we define the TM $M=(Q,\Sigma, \Gamma, \delta, q_0, q_4)$ with:
+\[Q = \{q_0, q_1, q_2, q_3, q_4\} \]
+\[\Sigma = \{0, A, C\} \]
+\[\Gamma = \{0, A, C, \sqcup\} \]
+\[q_0 \in Q \quad \text{is the start state}\] 
+\[q_4 \in Q \quad \text{is the accept state}\] 
+\[\delta: Q \times \Gamma \rightarrow Q \times \Gamma \times \{L, R\} \quad \text{is the transition function}\]
+
+\begin{table}[ht]
+    \centering
+    \caption{Transition Function \(\delta\) for the Turing Machine \(M\) Recognizing Strings Ending in \(AC0\)}
+    \label{tab:TM_transitions}
+    \footnotesize
+    \begin{tabular}{|p{2.5cm}|c|c|c|c|}
+        \hline
+        \textbf{State ↓ / Symbol →} & \textbf{A} & \textbf{C} & \textbf{0} & \textbf{B} \\ \hline
+        \(q_0\) & \((q_1,\,A,\,R)\) & \((q_0,\,C,\,R)\) & \((q_0,\,0,\,R)\) & \((q_r,\,B,\,R)\) \\ \hline
+        \(q_1\) & \((q_1,\,A,\,R)\) & \((q_2,\,C,\,R)\) & \((q_0,\,0,\,R)\) & \((q_r,\,B,\,R)\) \\ \hline
+        \(q_2\) & \((q_1,\,A,\,R)\) & \((q_0,\,C,\,R)\) & \((q_3,\,0,\,R)\) & \((q_r,\,B,\,R)\) \\ \hline
+        \(q_3\) & \((q_1,\,A,\,R)\) & \((q_0,\,C,\,R)\) & \((q_0,\,0,\,R)\) & \((q_a,\,B,\,R)\) \\ \hline
+    \end{tabular}
+\end{table}
+
+
+
+Following is a graph of this TM:
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{turing_machine_suffix.png}
+    \caption{TM for a string ending in "AC0" over $\Sigma$}
+    \label{fig:enter-label}
+\end{figure}
+
+The transition function $\delta$ is constructed so that the machine updates its memory of the last few symbols as it scans the input. For example, if in $q_2$ (having read "AC") the machine reads a 0, it transition to $q_3$. Further, if an unexpected symbol is encountered in any intermediate state, the machine resets to the appropriate state to begin detecting a new potential match.\footnote{The solution for this problem was enabled by following the logic presented in a very similar suffix problem in this YouTube video: \url{https://youtu.be/pmfz1tiujKk?si=WAosMUpfhOp-ZiSs}} 
+
+\section{CONTEXT-FREE LANGUAGE PROOFS}
+In this section, we present four distinct statements and prove each one individually, drawing on our knowledge of context-free languages from Section \ref{Background}.
+
+\subsection{Claim 1}
+
+\begin{theorem}[A CFG for $\#(\texttt{ac}) = \#(\texttt{co})$]
+Let $\Sigma = \{a,c,o\}$ (with $a$, $c$, and $o$ corresponding to $A$, $C$, and $0$, respectively). Define the context-free grammar 
+\[
+G = (V,\Sigma,R,S)
+\]
+where
+\[
+V = \{S,\,X,\,Y,\,A,\,O,\,C,\,F,\,N,\,L\}
+\]
+(with $S$ as the start symbol) and the production rules $R$ are given as follows:
+
+\medskip
+
+\noindent\textbf{Rules for $S$:}
+\begin{align}
+S \to S\,a\,c\,X\,c\,o\,S
+  \mid S\,c\,o\,Y\,a\,c\,S
+  &\mid \varepsilon
+\end{align}
+
+\noindent\textbf{Rules for $X$:}
+\begin{align}
+X \to A
+  \mid O
+  &\mid \varepsilon
+\end{align}
+
+\noindent\textbf{Rules for $A$:}
+\begin{align}
+A \to a\,O
+  &\mid a\,A
+\end{align}
+
+\noindent\textbf{Rules for $C$:}
+\begin{align}
+C \to c
+  \mid c\,A
+  &\mid c\,C
+\end{align}
+
+\noindent\textbf{Rules for $O$:}
+\begin{align}
+O \to o
+  \mid o\,O
+  \mid o\,A
+  &\mid o\,C
+\end{align}
+
+\noindent\textbf{Rules for $Y$:}
+\begin{align}
+Y \to N
+  \mid L
+  \mid F
+  &\mid \varepsilon
+\end{align}
+
+\noindent\textbf{Rules for $F$:}
+\begin{align}
+F \to c
+  \mid c\,N
+  &\mid c\,F
+\end{align}
+
+\noindent\textbf{Rules for $N$:}
+\begin{align}
+N \to a
+  \mid a\,L
+  &\mid a\,N
+\end{align}
+
+\noindent\textbf{Rules for $L$:}
+\begin{align}
+L \to o
+  \mid o\,L
+  \mid o\,N
+  &\mid o\,F
+\end{align}
+
+\medskip
+
+\noindent
+Then the language generated by $G$ is
+\[
+L(G) = \{\, w \in \Sigma^* \mid \#(\texttt{ac}) = \#(\texttt{co}) \,\}.
+\]
+\end{theorem}
+
+\begin{proof}[Explanation]
+Notice that the only rules that explicitly insert the critical string \texttt{ac} and \texttt{co} are the ones for $S$ in rules (1) and (2):
+\[
+S \to S\,a\,c\,X\,c\,o\,S \quad\text{and}\quad S \to S\,c\,o\,Y\,a\,c\,S.
+\]
+Each such production introduces exactly one occurrence of \texttt{ac} and one occurrence of \texttt{co}. The other nonterminals ($X, Y, A, O, C, F, N, L$) serve to generate strings over $\{a,c,o\}$ but are designed so that they do not introduce any additional \texttt{ac} or \texttt{co} substrings across their boundaries since every rule executed next to any terminal is made to not create the character that would insert another \texttt{ac} or \texttt{co}.
+
+Thus, every derivation from $S$ adds matching pairs of \texttt{ac} and \texttt{co} (or none at all), ensuring that in every string $w \in L(G)$ we have.\cite{colbourn_counting_2018}
+\[
+\#(\texttt{ac}) = \#(\texttt{co}).
+\]
+
+\end{proof}
+
+\begin{remark}
+In the original problem statement the symbols $a$, $c$, and $o$ correspond to $A$, $C$, and $0$, respectively.
+\end{remark}
+
+
+Next, we will convert the previous context-free grammar (CFG) into Chomsky Normal Form (CNF), which follows the rules discussed in Section \ref{Background}. We wrote an algorithm that followed the traditional step to convert a (CFG) to (CNF). The algorithm implemented in the code follows these high-level steps:
+
+\begin{enumerate}
+    \item \textbf{Eliminate Useless Symbols:} 
+    \begin{itemize}
+        \item \emph{Non-generating symbols:} Identify and remove variables that do not produce any terminal strings.
+        \item \emph{Unreachable symbols:} Identify and remove symbols that cannot be reached from the start symbol.
+    \end{itemize}
+
+    \item \textbf{Eliminate $\varepsilon$–Productions and Unit Productions:} 
+    \begin{itemize}
+        \item \emph{Epsilon productions:} Compute the set of \emph{nullable} nonterminals (those that can derive the empty string) and adjust productions to allow omission of these symbols, then remove $\varepsilon$–productions (except possibly for the start symbol).
+        \item \emph{Unit productions:} Eliminate productions of the form $A \to B$ by \emph{inlining} the productions for $B$ into $A$.
+    \end{itemize}
+
+    \item \textbf{Convert Long Productions and Substitute Terminals:}
+    \begin{itemize}
+        \item For productions with length $\ge 2$, substitute terminal symbols with new nonterminals to delay the introduction of extra symbols.
+        \item Break productions longer than two symbols into a series of binary productions by introducing new helper variables.
+    \end{itemize}
+
+    \item \textbf{Handle the Start Symbol:}
+    \begin{itemize}
+        \item Introduce a new start symbol if the original start symbol appears on the right-hand side or is nullable, ensuring that the grammar remains in proper CNF form.
+    \end{itemize}
+\end{enumerate}
+
+\textbf{Result}
+Once we ran the CFA from the previous problem, the algorithm created a CNF that has 69 non-terminals from a CFG that had nine. In the CFG there were 55 helper non-terminals that followed the form \(A \to BC\). In the CNF created there were zero unreachable variables and useless variables. We checked this by using the a simple yet brilliant algorithm by professor Glabbeek \cite{rob_useless_nodate}.
+\noindent
+\textbf{Algorithm Work Space Explanation (Useless Variable Elimination)}\\[6pt]
+We absolutely love how straightforward yet powerful this algorithm is! The core idea is
+to identify which variables can actually contribute to terminal strings (called
+\emph{generating} variables) and which variables can appear in derivations starting from
+the grammar’s start variable (called \emph{reachable} variables). The algorithm is
+delightfully simple:
+
+\begin{enumerate}
+  \item \emph{Identify Generating Variables:} In your algorithm work space, systematically
+  mark any variable \(X\) that can produce a string composed solely of terminals or
+  previously marked variables. Repeat until no more variables get marked. Everything else
+  is non-generating and thus excluded.
+
+  \item \emph{Identify Reachable Variables:} Once the grammar is pruned of non-generating
+  variables, similarly mark the start symbol as reachable, and then mark any variable that
+  appears in a production whose left-hand side is already marked reachable. Keep iterating
+  until stability. Any remaining unmarked variables are non-reachable.
+
+  \item \emph{Eliminate Useless Variables:} Remove productions involving non-generating or
+  non-reachable variables. The result is a cleaner, more concise grammar with only
+  ``useful'' variables.
+\end{enumerate}
+
+\noindent
+This procedure not only sharpens our grammar by cutting away deadwood, but also showcases
+the elegance of formal language theory. It is especially thrilling to watch how naturally
+the process reflects fundamental notions of derivation length and the structure of parse
+trees!
+
+
+\subsection{Claim 2}
+
+\begin{theorem}[Context-Free Property for Suffix-Based Subsets]
+\label{thm:suffixAC0}
+Let \(L\) be a context-free language over an alphabet \(\Sigma\) which contains the characters "A", "C","0". Define
+\[
+L' \;=\; \{\, w \in L \;\mid\; w\text{ ends with the substring } \texttt{AC0} \}.
+\]
+Then \(L'\) is context-free.
+\end{theorem}
+
+\begin{proof}[Proof]
+\noindent\textbf{Identify the Regular Constraint.}\\
+The condition “\(w\) ends with \(\texttt{AC0}\)” can be recognized by a simple regular expression:
+\[
+R \;=\; \Sigma^*\,AC0.
+\]
+Hence \(R\) is a regular language.
+
+\medskip
+\noindent\textbf{Express \(L'\) as an Intersection.}\\
+Observe that
+\[
+L' \;=\; L \;\cap\; R.
+\]
+Thus the set of all strings in \(L\) ending with \(\texttt{AC0}\) is precisely the intersection of \(L\) (context-free) and \(R\) (regular).
+
+\medskip
+\noindent\textbf{Use Closure of CFLs under Intersection with a Regular Language.}\\
+Context-free languages are not generally closed under intersection with arbitrary context-free languages, but they \emph{are} closed under intersection with regular languages. Thus
+\[
+L' \;=\; L \;\cap\; R
+\]
+must also be a context-free language.
+
+\medskip
+\noindent\textbf{Conclusion.}\\
+Since \(L\) is context-free and \(R\) is regular, their intersection \(L'\) remains context-free by the closure properties of context-free languages.
+\end{proof}
+
+(1) The problem itself, solved using the O1 model, available at: 
+\url{https://chatgpt.com/share/67c6616d-44a0-8003-ac2f-1b9366b55255} \newline
+(2) The solution written in LaTeX format, available at: 
+\url{https://chatgpt.com/share/67c6619b-38e0-8003-a537-8cfc134147fb}.}
+
+\subsection{Claim 3}
+\begin{theorem}[A language of the form ww (where w contains "AC0" as a suffix) is not context-free. ]
+\end{theorem}
+In order to prove that such language is not context-free, we will use this simplified version, which is equivalent to the previously mentioned language.
+\[
+  L \;=\; \{\, x\,AC0 \, x\,AC0 \;\mid\; x \in \{0,A,C\}^* \}.
+\]
+Then $L$ is not context-free.
+
+
+\begin{proof}
+We prove by contradiction using the Context-Free Pumping Lemma:
+
+\noindent
+\textbf{Context-Free Pumping Lemma (CFL-PL).}
+If $L$ is an infinite context-free language, then there is some integer 
+$p \ge 1$ (the ``pumping length'') such that any string $s \in L$ 
+with $|s| \ge p$ can be decomposed as
+\[
+   s \;=\; uvxyz
+\]
+where:
+\[
+  1.\;\;|vxy| \;\le\; p, 
+  \quad
+  2.\;\;|vy| \;\ge\; 1, 
+  \quad
+  3.\;\;\forall i \ge 0: uv^ixy^iz \in L.
+\]
+
+\noindent
+\newline\textbf{Pick a long string in $L$.}
+
+Suppose for contradiction that $L$ is context-free.
+Then it is infinite as $x$ can be arbitrarily large,
+so the CFL pumping lemma applies with some pumping length $p$.
+Consider the specific string
+\[
+  s \;=\; 0^p \;AC0\; 0^p \;AC0.
+\]
+$s \in L$ because it is of the form $x\,AC0\,x\,AC0$
+with $x=0^p$, additionally $s$ is at least of length p since the $0^p$ and $p\ge1$ would make the length of $s$ at least p.
+
+\noindent
+\newline\textbf{Apply the Pumping Lemma decomposition.}
+
+By the CFL-Pumping Lemma, we can write
+\[
+  s \;=\; uvxyz
+\]
+with the standard conditions 
+\( |vxy| \le p \) and \( |vy| \ge 1 \). 
+Such that the substring $vxy$ lies completely within
+some small region of $s$ of length at most $p$.
+
+\noindent
+\newline\textbf{Locate $vxy$.}
+
+Observe $s$ has the structure:
+\[
+  s = \underbrace{0^p}_{\text{first block of 0's}}\,AC0\,\underbrace{0^p}_{\text{second block of 0's}}\,AC0.
+\]
+
+Because $|vxy| \le p$, the substring $vxy$:
+- \emph{cannot} stretch across both blocks of $0^p$ and alter both $AC0$ (they are each of length $p$, so $vxy$ sits fully inside \emph{one} of those blocks or it might partially overlap the short ``AC0'' in the middle, but in any case, it is confined to at most $p$ consecutive symbols).
+
+We will see that pumping (i.e.\ repeating $v$ and $y$) disrupts the necessary ``two identical halves'' form and forces the new string \emph{not} to be in $L$.
+
+\noindent
+\textbf{Case Analysis:}
+
+1. \textbf{$vxy$ lies entirely in the first block of $0^p$.}  
+   Then pumping $v^i$ and $y^i$ changes only the length of the \emph{first} set of $0$'s, but not the second set.  Consequently, if we pick $i \neq 1$ then there will be more $0$ on the left side than on the right side of the string. Therefore the balance of leading zeros and and the ones in the second block break.
+   Vice versa for some $i \neq 0$.  Now the number of leading $0$s no longer matches the number of $0$s in the second block, so we no longer have a string of the form $x\,AC0\,x\,AC0.$ Hence it is \emph{not} in $L$.
+
+2. \textbf{$vxy$ lies entirely in the second block of $0^p$.}  
+   A similar argument shows that pumping changes the length of the second block of 0's but not the first, again destroying the equality of those blocks and thus removing the string from $L$.
+
+3. \textbf{$vxy$ overlaps the middle ``AC0'' or the final ``AC0''.}  
+   In either sub-case, pumping $v^i$ and $y^i$ adds or removes extra symbols around ``AC0'', causing the final structure to mismatch. We lose the strict pattern ``(some block)$\,AC0\,$(the same block)$\,AC0$,'' and so for some choice of $i$ (again typically $i=0$ or $i=2$), the resulting string is not in $L$.
+
+In \textit{all} scenarios, there is an $i$ (e.g.\ $i=0$ or $i=2$) such that 
+\[
+  u\,v^i x\,y^i z \;\notin\; L,
+\]
+contradicting the Pumping Lemma's requirement that $u\,v^i x\,y^i z$ 
+remain in $L$ for \emph{all} $i$. 
+
+Hence our assumption that $L$ is context-free must be false by contadiction.
+\end{proof}
+
+\subsection{Recognizing Palindromic Suffixes with a PDA}
+
+
+\begin{figure*}[h]
+    \centering
+    \includegraphics[width=0.5\textwidth]{phase2_problem5_pda.png} % Adjust width as needed
+    \caption{PDA that can recognize palindromes "AC0" suffix}
+    \label{fig:phase2_problem5_pda}
+\end{figure*}
+
+
+The pushdown automaton (PDA) on figure \ref{fig:phase2_problem5_pda} begins by pushing a special marker onto the stack, ensuring that it is distinct from any character in the input alphabet. The machine then reads the input while pushing each symbol onto the stack, effectively storing the first half of the string. At some arbitrary point, the PDA nondeterministically transitions from state \( q_3 \) to \( q_4 \), marking the assumed midpoint of the input.
+
+Upon entering \( q_4 \), the PDA begins reading the remainder of the input while simultaneously popping from the stack. Since the stack contains the first half of the input in reverse order, the input must match the sequence of characters stored on the stack for the string to be a palindrome. The machine continues processing until it reaches the last three characters of the input, at which point it verifies that the suffix is precisely "\texttt{AC0}".
+
+The PDA transitions to an accepting state if and only if the entire input is read, the stack is empty except for the initial special marker, and the suffix condition is met.
+
+
+Since the PDA operates nondeterministically, it can choose the exact point at which to transition from \( q_3 \) to \( q_4 \). If this transition occurs at the midpoint of the string, the stack contains every character from the left half of the input in reverse order. At this stage, the PDA ensures that each character read from the right half of the input matches the corresponding top character of the stack, enforcing the palindrome constraint.
+
+Additionally, the final transitions explicitly verify that the last three symbols of the input are "\texttt{AC0}". This guarantees that only strings satisfying both the palindrome property and the required suffix condition are accepted.
+
+Thus, the PDA correctly recognizes the language of palindromes that terminate with the suffix "\texttt{AC0}".
+
+
+
+
+\section{CLOSURE PROPERTIES AND SUFFIX OPERATOR}
+In this section, we present five distinct statements related to closure properties and the suffix operator, and prove each one individually.
+\subsection{Claim 1}
+
+
+\begin{theorem}
+    If \( L \) is a regular language, then \( \mathrm{suffix}(L) \) is also regular.
+\end{theorem}
+
+\begin{proof}
+    Let \( L \) be a regular language. By definition, there is a DFA
+    \[
+        M = (Q, \Sigma, \delta, q_0, F)
+    \]
+    such that \( L = L(M) \). We aim to construct an NFA that accepts precisely the set of all suffixes of strings in \( L \). Define:
+    \[
+        M' = (Q', \Sigma, \delta', q_0', F'),
+    \]
+    where:
+    \begin{itemize}
+        \item \(Q' = Q \cup \{ q_0' \}\), and \(q_0' \notin Q\) is a new start state.
+        \item There is an \(\epsilon\)-transition from \(q_0'\) to every state in \(Q\).
+        \item For every \(q \in Q\) and \(a \in \Sigma\), \(\delta'(q, a)\) agrees with \(\delta(q, a)\). In other words, transitions in \(Q\) are the same as in the original machine \(M\).
+        \item \(F' = F\), i.e.\ the set of final states is identical to that of \(M\).
+    \end{itemize}
+
+    \textbf{Two-way correctness argument:}
+
+    \vspace{0.5em}
+    \noindent
+    \emph{(\(\subseteq\) Direction)} Suppose \(v \in \mathrm{suffix}(L)\). By definition, there exists a string \(u\) such that \(uv \in L\). Since \(uv \in L\) and \(M\) recognizes \(L\), reading \(uv\) in \(M\) leads to a final state in \(F\). Specifically, let \(q\) be the state of \(M\) reached after reading \(u\). Thus:
+    \[
+      \delta(q_0, u) = q \quad \text{and} \quad \delta(q, v) = f \in F.
+    \]
+    In \(M'\), we can exploit the \(\epsilon\)-transition by moving from \(q_0'\) to \(q\) without consuming any input, and then follow precisely the same transitions on \(v\) as in \(M\). Since this computation ends in a state of \(F\), the string \(v\) is accepted by \(M'\). Therefore, \(v \in L(M')\).
+
+    \vspace{0.5em}
+    \noindent
+    \emph{(\(\supseteq\) Direction)} Conversely, if \(v \in L(M')\), then there is a path in \(M'\) from \(q_0'\) to some final state \(f \in F\) upon reading \(v\). The only way to leave \(q_0'\) is via one of the \(\epsilon\)-transitions into a state \(q \in Q\). Thus, from \(q\), the input \(v\) is read exactly as in \(M\). Since \(f \in F\), there must be a string \(u\) which could be empty such that \(\delta(q_0, u) = q\). Consequently, reading \(v\) from \(q\) ends in \(f\); hence \(\delta(q_0, uv) = f \in F\). This proves \(uv \in L\), and so \(v\) is indeed a suffix of some string in \(L\). Therefore, \(v \in \mathrm{suffix}(L)\).
+
+    \vspace{0.5em}
+    \noindent
+    Combining both directions shows that \( M' \) accepts exactly \(\mathrm{suffix}(L)\). Since \(M'\) is an NFA, and NFAs recognize only regular languages, we conclude \(\mathrm{suffix}(L)\) is regular. Hence, if \(L\) is regular, its set of all suffixes is regular as well.\footnote{See also: Easy Theory, ``Regular Languages Closed Under Suffix,'' YouTube, Jul.\ 27, 2020, \url{https://www.youtube.com/watch?v=UQRsGun4l7Y\&t=40s} (accessed Feb.\ 18, 2025).}
+\end{proof}
+
+\subsection{Claim 2}
+\begin{theorem}
+There exists a language \(L\) such that \(\mathrm{suffix}(L)\) is regular, but \(L\) itself is not regular.
+\end{theorem}
+
+\begin{proof}
+To exhibit such a language, let us explicitly define
+\[
+L \;=\; \{\, l^n s^n \mid n \ge 0 \}.
+\]
+We will show two things:
+\begin{enumerate}
+  \item \(\mathrm{suffix}(L)\) is regular.
+  \item \(L\) is not regular (via the pumping lemma), so \(\mathrm{suffix}(L)\) being regular does \emph{not} imply that \(L\) is regular.
+\end{enumerate}
+
+\textbf{(1) \(\mathrm{suffix}(L)\) is regular.}
+
+Any string in \(L\) has the form \(l^n s^n\). A suffix of \(l^n s^n\) is simply \(s^k\) for some \(k \le n\), including possibly \(s^0 = \varepsilon\). Thus:
+\[
+\mathrm{suffix}(l^n s^n) \;\subseteq\; \{\, s^m \mid 0 \,\le\, m \,\le\, n \}.
+\]
+Since this holds for any \(n\), all possible suffixes (taken collectively, over all strings in \(L\)) form
+\[
+\mathrm{suffix}(L) \;=\; \{\, s^m \mid m \ge 0 \} \;=\; s^*.
+\]
+The language \(s^*\) is regular due to the fact that it can be expressed as REGEX. Therefore, \(\mathrm{suffix}(L)\) is regular.
+
+\textbf{(2) \(L\) itself is not regular (pumping lemma).}
+
+We now show \(L\) is \emph{not} regular by contradiction using the standard pumping-lemma argument. Recall that \(L = \{\, l^n s^n \mid n \ge 0 \}\). Suppose, for contradiction, that \(L\) \emph{is} regular. Then there must be a pumping length \(p\) (the number of states in some purported DFA or the bound in the pumping lemma).
+
+\begin{enumerate}
+    \item Consider the string 
+    \[
+        x \;=\; l^p s^p \,\in L,
+    \]
+    which certainly has length at least \(p\).
+
+    \item By the pumping lemma, we can write \(x\) as \(xyz\), with \(|xy| \le p\), \(|y| > 0\), and for all \(i \ge 0\), \(xy^iz \in L\).
+
+    \item Since \(|xy| \le p\), both \(x\) and \(y\) consist only of the symbol \(l\). In particular, \(y\) is some non-empty substring of the initial \(l^p\) block.
+
+    \item Pumping \(y\) (i.e., choosing \(i = 2\)) yields:
+    \[
+        xy^2z \;=\; l^{p + |y|} \, s^p.
+    \]
+    The resulting string has more \(l\)s than \(s\)s, thus it \emph{cannot} be of the form \(l^n s^n\).
+
+    \item Hence, \(xy^2 z \notin L\), contradicting the pumping lemma requirement that \(xy^i z\) remain in \(L\) for all \(i \ge 0\).
+\end{enumerate}
+Because this contradiction arose from assuming \(L\) is regular, we conclude that \(\{\,l^n s^n \mid n \ge 0\}\) is not regular.
+
+We have defined a language \(L\) whose suffix set \(\mathrm{suffix}(L)\) is regular (\(s^*\)), yet \(L\) itself is demonstrably non-regular. Therefore, the regularity of \(\mathrm{suffix}(L)\) does \emph{not} imply \(L\) is regular.
+\end{proof}
+\subsection{Claim 3}
+
+\begin{theorem}
+The language \(L\) defined as 
+\[
+L = \{w \in \{0,A,B,C,S\}^* \mid \text{\#suffixes(AC0) = \#suffixes(BAS)}\}
+\]
+is not regular.
+\end{theorem}
+
+\begin{proof}
+We prove that \(L\) is not regular using the **pumping lemma for regular languages**.
+
+\begin{enumerate}
+    \item Suppose for contradiction that \(L\) is regular. Then, there must exist a pumping length \(p\) such that any string \(w\) in \(L\) with \(|w| \geq p\) can be decomposed as \(w = xyz\), where:
+    \begin{itemize}
+        \item \(xy^i z \in L\) for all \(i \geq 0\),
+        \item \(|xy| \leq p\), and
+        \item \(|y| > 0\).
+    \end{itemize}
+
+    \item Choose the string \(w = (AC0)^p (BAS)^p\), which belongs to \(L\) because it contains an equal number of "AC0" and "BAS" suffixes.
+
+    \item By the pumping lemma, we can write \(w = xyz\) such that:
+    \begin{align}
+        x &= (AC0)^\alpha, \\
+        y &= (AC0)^\beta, \\
+        z &= (AC0)^{p-\alpha-\beta} (BAS)^p.
+    \end{align}
+    
+    \item Consider the pumped string \( xy^i z \):
+    \begin{align}
+        xy^i z &= (AC0)^\alpha (AC0)^{i\beta} (AC0)^{p-\alpha-\beta} (BAS)^p \\
+              &= (AC0)^{p + i\beta - \beta} (BAS)^p.
+    \end{align}
+    
+    \item Choosing \(i = 2\), we get:
+    \[
+    (AC0)^{p + \beta} (BAS)^p.
+    \]
+    This introduces an imbalance between the number of "AC0" and "BAS" suffixes, contradicting the definition of \(L\).
+
+    \item Since the pumping lemma must hold for all regular languages, and we have found a contradiction, \(L\) cannot be regular.
+\end{enumerate}
+\end{proof}
+
+\footnote{Easy Theory, “Pumping Lemma for Regular Languages Example: 0n1n,” YouTube, Jul. 21, 2021. \href{https://www.youtube.com/watch?v=vcND4aGPWtM}{https://www.youtube.com/watch?v=vcND4aGPWtM} (accessed Feb. 03, 2025).}
+
+
+\subsection{Claim 4}
+
+\begin{theorem}
+Let \(L\) be a context-free language over an alphabet \(\Sigma\). Define
+\[
+\mathrm{suffix}(L) \;=\;\{\, w \in \Sigma^* \mid \exists u \in \Sigma^* : uw \in L\,\}.
+\]
+Then \(\mathrm{suffix}(L)\) need not be context-free. In other words, the family of
+context-free languages is not closed under taking all suffixes.
+\end{theorem}
+
+\begin{proof}
+\noindent
+\textbf{Intuitive Explanation.}\\[4pt]
+It might feel, at first glance, that allowing all suffixes of strings in \(L\) should preserve
+context-freeness- after all, we’re not entirely discarding or rewriting the language, just
+snipping off some prefix from each string. But here’s the subtlety: \(\mathrm{suffix}(L)\)
+can be \emph{strictly larger} than \(L\). Any prefix we chop off might remove the portion
+that made the original language “structured.” This can generate additional strings that
+cannot be derived via a single context-free grammar.
+
+\noindent
+\textbf{Formal Reasoning via Left Quotient.}\\[4pt]
+Observe that
+\[
+\mathrm{suffix}(L) \;=\; \Sigma^* \backslash L
+\;=\; \{\, w \in \Sigma^* : \exists u \in \Sigma^*\text{ with } uw \in L \}.
+\]
+Another way to phrase “taking all suffixes of \(L\)” is to say “take the left quotient of
+\(L\) by \(\Sigma^*\).” In notation:
+\[
+R \backslash L \;=\; \{\, w : \exists r \in R \text{ with } rw \in L \},
+\]
+where \(R=\Sigma^*\) is a regular language. Consequently, if context-free languages were
+closed under this \emph{left quotient by a regular language}, they would also be closed under
+\(\mathrm{suffix}(\cdot)\). However, one of the well known results in formal language theory
+states that context-free languages \emph{are not} closed under left quotient by certain
+regular languages. Hence, we cannot expect them to be closed under suffix operations either.
+
+\noindent
+\textbf{A More Concrete Example.}\\[4pt]
+For those who want something more tangible, we can construct specific examples of
+context-free languages \(L\) whose suffix sets, \(\mathrm{suffix}(L)\), end up producing
+well-known non-context-free patterns. The usual technique is to design \(L\) so that by
+“chopping off” various prefixes, the remaining suffixes mimic a known non-context-free
+language (like \(\{ a^n b^n c^n \mid n \ge 0 \}\)). This is often done by carefully merging
+two context-free components in such a way that some suffix inadvertently forms a non-CF
+pattern. Detailed versions of such constructions can be found in many textbooks on formal
+languages.
+
+\noindent
+\textbf{Conclusion.}\\[4pt]
+Thus, although \(\mathrm{suffix}(L)\) contains \(L\) itself (and potentially much more),
+that extra “much more” can break context-freeness. Since context-free languages fail to be
+closed under left quotient by a regular language, and \(\mathrm{suffix}(L)\) is precisely
+\(\Sigma^* \backslash L\), it follows that \(\mathrm{suffix}(L)\) need not be context-free.
+\end{proof}
+
+\subsection{Claim 5}
+
+\begin{theorem}
+There exists a language \(L\) such that \(\mathrm{suffix}(L)\) is context-free,
+but \(L\) itself is not context-free.
+Hence, having a context-free set of suffixes \emph{does not guarantee} that
+\(L\) is context-free.
+\end{theorem}
+
+\begin{proof}
+Let \(\Sigma = \{a, b, c\}\) and define
+\[
+  L \;=\; \bigl\{ a^n b^n c^n \mid n \ge 1 \bigr\} \,\Sigma^*.
+\]
+
+\noindent
+\textbf{(1) \(L\) is not context-free.}\\
+To see why, note that intersecting \(L\) with the regular language \(\,a^+ b^+ c^+\) yields
+\[
+   L \,\cap\, a^+ b^+ c^+
+   \;=\;
+   \bigl\{\, a^n b^n c^n \;\mid\; n \ge 1 \bigr\},
+\]
+which is a classic non-context-free language. Since context-free languages
+\emph{are} closed under intersection with a regular language \footnote{Context-Free Languagess are Closed Under Intersection with Regular Languages,Easy Theory, https://www.youtube.com/watch?v=fiipLIVwR9o}, if \(L\) had been context-free,
+then \(L \cap a^+ b^+ c^+\) would have to be context-free as well. But
+\(\{\, a^n b^n c^n \mid n \ge 1 \}\) is known \emph{not} to be context-free, so this is
+a contradiction. Thus \(L\) cannot be context-free.
+
+\noindent
+\textbf{(2) \(\mathrm{suffix}(L)\) is context-free.}\\
+Observe that \(L\) contains \emph{all} strings having \(\,a^n b^n c^n\) (for some \(n \ge 1\)) as a
+prefix, followed by any suffix in \(\Sigma^*\). Concretely, for every possible string
+\(w \in \Sigma^*\), we can form
+\[
+   (a^n b^n c^n)\,w \;\in\; L
+   \quad\text{(choose any }n \ge 1\text{).}
+\]
+Hence \emph{every} string \(w\) in \(\Sigma^*\) appears as a suffix of \emph{some} string in
+\(L\). That is,
+\[
+   \mathrm{suffix}(L)
+   \;=\;
+   \{\, w \mid \exists\,u:\; u w \in L\}
+   \;=\;
+   \Sigma^*.
+\]
+But \(\Sigma^*\) is clearly regular and therefore also context-free. Thus
+\(\mathrm{suffix}(L)\) is context-free.
+
+\noindent
+\textbf{Conclusion.}\\
+We have a language \(L\) that is \emph{not} context-free, yet
+\(\mathrm{suffix}(L)\) is simply \(\Sigma^*\), which is context-free. Therefore,
+even if the set of all suffixes of \(L\) happens to be context-free, it does not force
+\(L\) to be context-free.
+\end{proof}
+
+\subsection{Claim 6}
+\begin{theorem}
+    There exists a decidable language L such that suffix(L) is undecidable, where the suffix(L) is defined as follows:
+    \[
+    suffix(L) = \{w \in \Sigma | \text{ there exists a string } u \in \Sigma \text{ such that } uw \in L\}
+    \]
+\end{theorem}
+\begin{proof}
+    Let H be a deterministic Turing machine with L(H) = HALT, where HALT is the undecidable halting problem. Also, consider the language $L \subseteq \{ 0,1,\#\}^* $:
+    \[ 
+    L = \{w\#0^t : H \text{ accepts } w \text{ within } t \text{ steps}\}
+    \]
+    This language is decidable because the number $t$ (which comes as a sequence of 0s after r the "\#") bounds how long we need to simulate the Turing machine $H$ on input $w$. So, given a string in this format, we can determine whether it's in $L$ by simulating $H$ for at most $t$ steps.  
+    \newline
+    Now consider a binary string $w$. $w\#$ is a suffix of some string in $L$ if and only if there exists some integer t such that $w\#0^t$ is in $L$. According to the definition of $L$, this is true when $H$ accepts $w$ within $t$ steps. \newline 
+    If we assume that suffix(L) is decidable, then we could decide whether any binary string $w$ is in HALT by testing if $w\#$ is in suffix(L). But this would mean that we can decide the Halting Problem, which is a contradiction because HALT is undecidable. Therefore, even though $L$ is decidable, the set of all suffixes of $L$ is undecidable.\footnote{“Further Discussion of Computability.” Accessed April 15, 2025. \url{https://cs.uwaterloo.ca/~watrous/ToC-notes/ToC-notes.18.pdf}. I followed the process discussed in this source for a very similar problem but for prefix(L) instead of suffix(L).}
+\end{proof}
+
+\subsection{Claim 7}
+
+\begin{theorem}
+If \(\mathrm{suffix}(L)\) is decidable, it does \emph{not} necessarily imply that \(L\) itself is decidable.
+\end{theorem}
+
+\begin{proof}
+We will show a direct example of a language \(L\) that is undecidable, even though its set of suffixes \(\mathrm{suffix}(L)\) is decidable. Our strategy is to construct \(L\) in such a way that \(\mathrm{suffix}(L)\) ends up being \(\Sigma^*\) (the set of \emph{all} strings), which is trivially decidable.
+
+\begin{enumerate}
+    \item \textbf{Define the language \(L\).} Let \(L\) be the collection of strings encoding a Turing machine and its input, such that the machine halts on that input. In standard notation, we write:
+    \[
+    L \;=\; \{\,\langle M \rangle \# w \mid \text{Turing machine } M \text{ halts on input } w \}.
+    \]
+    This language captures the well-known Halting Problem.
+
+    \item \textbf{\(L\) is undecidable.} It is a classical result in computability theory that determining whether a Turing machine \(M\) halts on an input \(w\) is \emph{not} decidable. In other words, there does not exist any decider for membership in \(L\). Hence, \(L\) is \emph{undecidable}.
+
+    \item \textbf{Show that \(\mathrm{suffix}(L) = \Sigma^*\).} Next, we consider any string \(x \in \Sigma^*\). We want to prove that \(x\) is always a suffix of some string in \(L\). Indeed, we can construct a Turing machine \(M_x\) that halts on \emph{all} inputs (for example, one that immediately halts without doing any computation). If we take the specific string \(x\) and feed it to \(M_x\), we see that \(\langle M_x\rangle \# x \in L\) because \(M_x\) halts on \(x\). Consequently, \(x\) appears as a suffix (namely, the part after \(\langle M_x\rangle \#\)) of a string in \(L\). 
+
+    Because this argument holds for \emph{every} string \(x \in \Sigma^*\), it follows that:
+    \[
+    \mathrm{suffix}(L) \;=\; \Sigma^*.
+    \]
+
+    \item \textbf{\(\mathrm{suffix}(L)\) is decidable.} Since \(\mathrm{suffix}(L)\) equals \(\Sigma^*\), deciding whether a string \(x\) is in \(\mathrm{suffix}(L)\) is trivial: we simply \emph{always accept}. A machine implementing “on input \(x\), accept” decides \(\Sigma^*\). Therefore, \(\mathrm{suffix}(L)\) is clearly a decidable language.
+
+    \item \textbf{Conclusion.} We have constructed an \emph{undecidable} language \(L\) whose set of suffixes \(\mathrm{suffix}(L)\) is \emph{decidable}. Hence, it is not true in general that decidability of \(\mathrm{suffix}(L)\) forces \(L\) to be decidable. This counterexample completes the proof.
+\end{enumerate}
+\end{proof}
+
+\subsection{Claim 8}
+
+\begin{theorem}
+    Let:
+    \[
+    SUF=\{\langle M\rangle | L(M)\text{ is suffix‑free}\}.
+    \]
+    A language is "suffix-free" if any string x in L is not a suffix of any other string in L. Then SUF is undecidable.
+\end{theorem}
+
+\begin{proof}
+    Being suffix‑free is a property of the language recognized by a Turing
+    machine:
+    
+    \begin{enumerate}
+      \item If two machines $M_1,M_2$ satisfy $L(M_1)=L(M_2)$ they are either both suffix‑free or both not suffix‑free, because the property deals with only the set of accepted strings, not the machine internals.
+      \item Additionally, the property is non‑trivial:  
+      \begin{itemize}
+          \item The machine $M_1$ that rejects every input recognizes $\varnothing$, which is suffix‑free, so $\langle M_1\rangle\in SUF$.
+          \item The machine $M_2$ that accepts every input recognizes $\Sigma^{*}$, which is not suffix‑free (every string is a suffix of a longer one), so $\langle M_1\rangle\notin SUF$.
+      \end{itemize}
+    \end{enumerate}
+    
+    Because the specification that $L(M)$ is suffix‑free is a non‑trivial language property, Rice’s Theorem applies, and no SUF is undecidable.
+\end{proof}
+
+This result shows the uses of Rice’s Theorem within the broader study of suffix‑based language questions.
+
+
+%SECTION 7 EXPERIMENTATION AND IMPLEMENTATION
+\section{IMPLEMENTATION AND EXPERIMENTAL VALIDATION}
+Here, we implemented Python code that follows the algorithms mentioned in Subsection \ref{DFA and NFA Algorithms} using the PySimpleAutomata Python package.
+
+\subsection{DFA Suffix Check Algorithm}
+
+\textbf{DFA Generation.}
+\newline
+    Random DFAs are generated with a complete transition function over the alphabet $\{0,A,C\}$. The DFAs vary in size (300, 500, and 700 states), and the accepting states are chosen randomly with a fixed probability. These sizes were chosen because they represent moderately large automata that allow us to observe trends in computation time. They are large enough to capture performance differences yet small enough to allow for multiple rapid tests. For the fixed probability,We assigned a probability of 20\% for each state to be marked as accepting. Approximately 20\% of states are marked as accepting. This probability is typical for simulating realistic DFA behavior, avoiding extremes (all or no states accepting) that could skew performance.\footnote{The code to run these tests was provided by these chats: (1) https://chatgpt.com/share/67d38452-7cb8-8003-a52c-3dbc56d15d32 (2) https://www.perplexity.ai/search/i-want-to-generate-hundreds-of-pIFF0ofARxiM169b3BRlBg}\newline
+    \textbf{Testing Method: \newline}
+    For each DFA size, 5 random DFAs are generated. Each DFA is processed to check the suffix specification using the algorithm described above. The processing is parallelized using Python's $ProcessPoolExecutor$ to leverage multiple cores.
+    \textbf{Performance Measurement:\newline}
+    The computation time for each DFA is measured with Python’s high-resolution timer ($time.perf_counter()$). These times are printed for individual DFAs and averaged per size, with the results also logged to a CSV file.
+
+\subsubsection{Results Analysis}
+The terminal output indicate the following average processing times:
+\begin{enumerate}
+    \item 300 states 
+    \begin{itemize}
+        \item Individual times: 0.00780, 0.00451, 0.00490, 0.00524, 0.00761 seconds
+        \item Average: ~0.00601 seconds
+    \end{itemize}
+    \item 500 states 
+    \begin{itemize}
+        \item Individual times: 0.00849, 0.00889, 0.00854, 0.00778, 0.00875 seconds
+        \item Average: ~0.00849 seconds
+    \end{itemize}
+    \item 700 states 
+    \begin{itemize}
+        \item Individual times: 0.02062, 0.01290, 0.01623, 0.01447, 0.01318 seconds seconds
+        \item Average: ~0.01548 seconds
+    \end{itemize}
+\end{enumerate}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{computation_time_vs_dfa_size.png}
+    \caption{The impact of DFA size on the run time}
+    \label{fig:phase1_problemC}
+\end{figure}
+
+\textbf{Trends Observed:}
+\begin{itemize}
+    \item \textbf{Linear Increase:}
+    As the DFA size increases from 300 to 700 states (an increase by a factor of roughly 2.33), the average computation time increases from about 0.006 seconds to roughly 0.0155 seconds. This near-linear increase is consistent with the expected $O(|Q_D|)$ complexity, confirming that the algorithm scales linearly with the number of states.
+    \item \textbf{Variability: }
+    While most timings are clustered (especially for 300 and 500 states), one outlier in the 700-state tests (0.02062 seconds) suggests some variability, possibly due to system load or differences in the randomly generated transition structure. Despite this, the overall trend remains linear.
+    \item \textbf{Efficiency:}
+    Even for DFAs with 700 states, the average processing time is on the order of 15 milliseconds per DFA. This demonstrates the efficiency of the algorithm and the benefits of parallel processing.
+\end{itemize}
+\subsubsection{Conclusion}
+The experimental results indicate that the suffix inclusion check scales roughly linearly with DFA size. Our design leverages the constant size of the specification DFA, ensuring that increases in computation time are directly tied to the size of the input DFA. The chosen DFA sizes, a fixed acceptance probability of 0.2, and the use of Python’s ProcessPoolExecutor all contribute to a robust and efficient experimental setup. The accompanying graph (produced by the program) further confirms that the increase in computation time with DFA size is linear, validating our theoretical analysis.
+
+This comprehensive analysis shows that the algorithm is not only theoretically efficient, but also practical for use with DFAs of varying sizes in real-world applications.
+
+\subsection{Finite NFA Check Algorithm}
+\textbf{Problem Statement: For Problem 4, our goal was to determine whether an NFA $N$ accepts at most a finite number of strings that do NOT end with "AC0" or "0CA".}
+
+First, we created a DFA that accepts strings that do not end with the aforementioned suffixes.\footnote{To create this DFA, we went through an iterative process with ChatGPT. (1) Get general problem D solution \url{https://chatgpt.com/share/67d3d45e-ed3c-8003-aef0-fa12ef64eb14} (2) Get code to test the dfa \url{https://chatgpt.com/share/67d3d575-96d8-8003-83ce-3df4636cbdec} (3) Do the same thing again but using chat's abilities with a build in python interpreter \url{https://chatgpt.com/share/67d3d5a3-7bf0-8003-8f1b-5b2f2dfba89d} (4) Once those small-scale tests were complete, we got code to test it with 1000 randomly generated strings \url{https://chatgpt.com/share/67d3d5d0-49fc-8003-9f6d-427797d411e0}. This had no tests failing, so we assume it to be a correct DFA.}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{Screenshot 2025-03-14 031456.png}
+    \caption{The "Base" DFA used for comparison in the Algorithm Implementaion}
+    \label{fig:base-DFA}
+\end{figure}
+
+\subsubsection{Experimental Setup}
+
+\textbf{Random NFA Generation:} The experiments generate random NFAs with sizes ranging from 200 to 600 states. Each NFA has a fixed alphabet \{"A", "C", "0"\} and random transitions added with a probability (0.3 in our case). Randomly selected initial and accepting states further ensure that the test cases are diverse.
+
+\textbf{Timing Method:} Computation times are measured using a high-precision timer (using Python’s \texttt{time.perf\_counter()}) to capture the execution time of the finite-acceptance algorithm.
+
+\textbf{Testing Variability:} While most NFAs in our range show an increase in runtime as state count increases, some instances (like the 200-state case) may be exceptionally fast due to the structure of the NFA or a smaller reachable intersection graph.\footnote{The code for the experiment was iteratively created by the following session. Further, this session provided the content for section 7.2 and was refined for latex by session 2: (1) \url{https://chatgpt.com/share/67d3e1f9-e2fc-8003-a50c-32e8ebe3ac72} (2) \url{https://chatgpt.com/share/67d3e28d-8b7c-8003-949f-797ea2fee858}}
+
+\subsubsection{Comparison of Input Size and Computation Time}
+
+The experimental results show that as the number of states in the randomly generated NFA increases, the computation time of the finite-acceptance check also increases.
+
+\paragraph{Comparison of Input Size and Computation Time}
+\begin{itemize}
+    \item \textbf{200 States:} \newline
+    \textit{Time:} 0.000019 seconds \newline
+    This instance was extremely fast—possibly due to a smaller intersection or simpler transition structure in the resulting automaton.
+    
+    \item \textbf{300 States:} \newline
+    \textit{Time:} 0.000932 seconds \newline
+    Noticeable increase compared to 200 states.
+    
+    \item \textbf{400 States:} \newline
+    \textit{Time:} 0.001722 seconds
+    
+    \item \textbf{500 States:} \newline
+    \textit{Time:} 0.001921 seconds
+    
+    \item \textbf{600 States:} \newline
+    \textit{Time:} 0.003381 seconds
+\end{itemize}
+
+These results suggest that the run time grows with the number of states. For instance, the jump from 300 to 600 states roughly doubles the processing time. Although there is some variability (as seen with the 200-state instance), the overall trend is an increase in computation time with larger NFA sizes.
+
+\subsubsection{Observed Trends}
+
+\paragraph{Linear Growth}
+The overall trend is that computation time increases roughly linearly with the size of the input NFA. This is consistent with the theoretical analysis since the product automaton’s size and the subsequent DFS cycle detection are both linear in the number of states.
+
+\paragraph{Efficiency}
+Even for NFAs with 600 states, the runtime remains very low (on the order of milliseconds), indicating that the algorithm is highly efficient for NFAs of this scale.
+
+\paragraph{Variability}
+Some variability in time may result from differences in the structure of the random NFAs (for example, how many states are reachable or how dense the transition graph is), but the scaling behavior is in line with expectations.
+
+\subsubsection{Conclusion}
+The experimental data supports our algorithm design: the processing time increases in a roughly linear fashion as the size of the NFA increases. This confirms that the approach—intersecting with a constant-size specification automaton and performing cycle detection on the resulting graph—is both theoretically sound and practically efficient for automata with hundreds of states.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{nfa_p4_results.png}
+    \caption{Size of input NFA and it's effect on run time}
+    \label{fig:nfa-size-run-time}
+\end{figure}
+
+
+\section{Discussion}
+The findings in this paper demonstrate how DFAs can effectively handle suffix detection problems, which has a few important implications. First, showing that these languages can be decided using DFAs helps confirm the closure of regular languages under suffix-based operations. This can be a helpful way to prove or re-prove other statements in theory-of-computation courses, potentially offering clearer or more direct constructions compared to more general arguments.
+
+Beyond the classroom, the ability to detect suffixes efficiently plays a critical role in real-world applications. Large-scale text processing, whether it involves system logs, database queries, or genetic sequences, requires fast algorithms that can handle large volumes of data. Tools such as Grep in the Unix system can run word searches recursively from the root in a matter of minutes, which can help cyber professionals find code with suspicious binaries. Traditional brute-force methods often become too slow because they repeatedly scan the same parts of the text. In contrast, DFAs read each character only once, which can significantly reduce processing time. This makes them valuable in tasks such as intrusion detection, search engine indexing, and streaming analytics, where quick pattern matching is essential.
+
+Overall, the methods presented here not only show why certain languages remain regular but also illustrate how careful DFA design can lead to faster, more efficient solutions for real-world string-matching requirements.
+
+\section{Future Work}
+In this work we focused on suffix detection for a single target (or its reversal) using automata-based methods. Building on these foundations, several promising directions emerge:
+
+\begin{enumerate}
+    \item \textbf{Extension to Substring Detection:}  
+    One natural question is whether the methods we developed for suffix detection can be adapted to detect substrings occurring anywhere within a given string. In our current approach, the DFA is tailored to check only the final characters, which simplifies both the state construction and the analysis. For general substring detection, however, the automaton must account for target occurrences at arbitrary positions. Our intuition is that while similar techniques (such as constructing transition tables that track partial matches) may be applicable, the complexity of the DFA could increase substantially, possibly requiring more sophisticated non-deterministic models or even hybrid approaches. Investigating these modifications—and determining whether they yield efficient algorithms in practice—remains an interesting avenue for research.
+
+    \item \textbf{Generalization to Multiple Suffixes and Scalability:}  
+    In many real-world applications—such as network intrusion detection, search engine query processing, and genomic sequence analysis—one often needs to detect the presence of several target suffixes simultaneously rather than a single pattern. This extension raises several research challenges:
+    \begin{itemize}
+        \item \emph{Interplay Among Suffixes:} When multiple suffixes are under consideration, issues such as overlapping patterns and shared prefixes (or even suffixes) may arise. How does one design a DFA or NFA that efficiently distinguishes among these patterns while avoiding redundant states? Moreover, if certain suffixes are allowed to appear in tandem (e.g., one following another or appearing as part of a compound pattern), the automaton must be capable of handling these dependencies.
+        \item \emph{Automaton Size and Scalability:} As the number of target suffixes increases, the number of states required for a deterministic automaton may grow significantly. Analyzing how the state-space scales with the number and complexity of suffixes is crucial to the scalability and usage of DFA'S or NFA's. Future work could explore techniques to minimize the state explosion—perhaps by leveraging common substructures or applying state merging algorithms.
+        \item \emph{Practical Applications and Performance:} The term “application” here refers to domains where rapid and scalable string matching is critical. For example, cybersecurity systems routinely scan logs for multiple suspicious patterns, and bioinformatics tools search for numerous genetic markers. Research could focus on both the theoretical underpinnings and the empirical performance of automata-based solutions in such high-demand scenarios.
+    \end{itemize}
+    By combining these aspects into a unified framework, future research can develop more general algorithms that handle a broader class of suffix (or substring) detection problems while maintaining efficiency and scalability.\footnote{The content that was written here before was given to ChatGPT, along with the instructor feedback comments, to be expanded. All the expanded content was copied to here. \url{https://chatgpt.com/share/67c66a76-eca8-8003-a6d8-53376b81a238}}
+    \item \textbf{Advanced Context-Free Grammar (CFG) Extensions:}
+
+Our exploration also touched on the use of context-free grammars (CFGs), especially when converting them into Chomsky Normal Form (CNF) and analyzing how automata-based approaches might intersect with grammar-based tools. A promising direction for future work is expanding these CFG methods to tackle more complex pattern-detection scenarios beyond mere suffix checks. Specifically:
+
+\begin{itemize}
+    \item \emph{Grammar-Driven Pattern Recognition:} While our work demonstrated suffix detection using regular techniques, many real-world patterns exhibit nested structures or dependencies better captured by CFGs. Investigating how to systematically incorporate such nested constraints like matching pairs of tags in XML or checking for balanced substrings in code may involve designing novel parsing strategies that blend DFAs/NFAs with Pushdown Automata (PDAs), or hybrid algorithms combining both finite and stack-based controls.
+
+    \item \emph{Enhanced CFG Transformations for Efficiency:} We utilized the conversion of CFGs into CNF to streamline parsing. However, there are deeper optimization questions: Can we further reduce grammar size or parsing complexity for specific classes of suffix or substring queries? Exploring transformations or partial evaluations of CFGs tailored to certain detection tasks such as “suffix CFGs” that directly generate patterns ending in specific terminal sequences could yield more efficient parsing methods while streamling the ability to use CFG's for suffix detection.
+
+    \item \emph{Expansion to Context-Free Substring Detection:} Although substring detection can be done with regular automata for simpler patterns, certain language constraints become inherently context-free. Determining whether a substring adheres to grammar-driven rules—say, a bracketed substring in a programming language or a specific balanced structure in a document format—may benefit from CFG-based checks. Research on such grammar-centric substring or subsequence searches could illuminate new techniques for large-scale data applications like code analysis, structured text processing, or partial compliance checks in markup languages.
+
+    \item \emph{Practical Implications and Hybrid Modeling:} Many domains such as static analysis of code bases, syntax-driven text mining, or structured log parsing already rely on context-free formalisms. Yet, the demands of real-time or near-real-time processing require greater efficiency and scalability. Future investigations could consider hybrid models—where an initial regular automaton filters out trivial non-matches, handing off only promising candidates to a more powerful CFG-based parser. Such layered approaches might strike an advantageous balance between speed and expressive power.
+
+\end{itemize}
+
+\noindent
+\textbf{Why Further Research is Valuable:} Context-free grammars naturally capture hierarchical or recursive patterns—attributes common in many real-world string and language scenarios. By pursuing these CFG extensions, we could strengthen our pattern detection capabilities well beyond simple suffix or substring checks. Moreover, continued advances in CFG optimizations and parsing theory could open new avenues for high-speed detection of complex, structured patterns in logs, genetic sequences, or even natural language texts. Ultimately, these developments can lead to robust, flexible frameworks that combine the nature of formal languages with the performance required in modern, data-intensive applications.
+
+
+
+
+
+
+
+
+\end{enumerate}
+
+
+\section{Conclusion}
+To be determined...
+
+\section{Generative AI Disclosure}
+During the writing course of this paper, we used the ChatGPT-4o model to translate our solution into properly formatted \LaTeX code that displayed our solution coherently and properly organized. Additionally, we used AI to write the Python script that generated the image out of the DFA we constructed while solving the problem. To provide further clarification, AI did not give us the DFA. We used it to write the script that visualized it. We also used AI to create the code that represents our algorithm as well as test for the code. In other words, we used it to create our Python implementations for Problems 3 and 4. In particular, ChatGPT provided guidance on implementing "syntax-sound" code based on the descriptions of the problems we solved. For further details on the conversation that assisted with the code development, see the shared ChatGPT discussion\footnote{ChatGPT conversation shared at: \url{https://chatgpt.com/share/67b55cbe-8f9c-8003-95f8-a4fec8755ec4}}. For phase 2 problem b, ChatGPT provided the entirety of the solution. See the chat here (3)\url{https://chatgpt.com/share/67bd26d4-8730-8003-898e-21659df6cd1f} (2) \url{https://chatgpt.com/share/67bd237d-045c-8003-abb6-faa0581b631c} (1) \url{https://chatgpt.com/share/67bd22aa-36b4-8003-af85-9c489de114ed}. For the organization of our paper, we asked ChatGPT to organize everything in an understandable format that wasn't rigid like "phase 2, problem 5" etc. See the chat here: \url{https://chatgpt.com/share/67bd20ed-fdb0-8003-af8b-d30c443c17cc}. For phase 2 problem 3, the entirety of this problem was provided by these two ChatGPT discussions: (1) the problem itself, solved using the O1 model - \url{https://chatgpt.com/share/67c65fb3-eccc-8003-8afa-9b2560b4f496} (2) the solution written in latex form - \newline\url{https://chatgpt.com/canvas/shared/67c660352fa08191bbdf1beac7433592}. The same follows for problem 4: (1) \url{https://chatgpt.com/share/67c6616d-44a0-8003-ac2f-1b9366b55255}(2) \url{https://chatgpt.com/share/67c6619b-38e0-8003-a537-8cfc134147fb}. For the future work section, the content that was written there before was given to ChatGPT, along with the instructor feedback comments, to be expanded. All the expanded content was copied to here: \url{https://chatgpt.com/share/67c66a76-eca8-8003-a6d8-53376b81a238}. For phase 1, problems 3/c and 4/d, the following chat provided suggested fixes based on instructor feedback for the correctness and presentation of these problems. These suggestions were fully incorporated into the work. Note that the first link is the suggested changes and the second link is a chat that was used to make the instructor suggestions more readable for the first chat: (1) \url{https://chatgpt.com/share/67d34b57-5e40-8003-8cd5-8e76a5a72d17} (2) \url{https://chatgpt.com/share/67d34bf0-92c8-8003-9890-c60ce20123b8}. The code to run the tests in the experiment section for phase 2 problem a were provided by these chats: (1) https://chatgpt.com/share/67d38452-7cb8-8003-a52c-3dbc56d15d32 (2) https://www.perplexity.ai/search/i-want-to-generate-hundreds-of-pIFF0ofARxiM169b3BRlBg. Further the discussion of the results was derived from chat 1. For the transition table in section 4.4, I used this chat to help me format the transition table (to get the example markdown table, I screenshotted the table from lesson 19 and asked ChatGPT to transcribe it): \url{https://chatgpt.com/share/67fcfa70-6e24-8003-a12c-9a5e597d4570}.
+\section{Acknowledgments}
+\begin{enumerate}
+    \item Introduction to the Theory of Computation (3rd edition) by
+Michael Sipser.
+\end{enumerate}
+
+
+
+
+\bibliographystyle{ACM-Reference-Format}
+\bibliography{sample-base}
+\end{document}
+\endinput
+%%
+%% End of file `sample-sigconf-authordraft.tex'.

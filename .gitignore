@@ -70,5 +70,5 @@ venv.bak/
 *.zip
 *.pdf
 
-/paper
+#/paper
 p3/results
