@@ -1,0 +1,1 @@
+Processing satisfying DFA sizes:  10%|██████████████████▉                                                                                                                                                                          | 1/10 [05:43<51:28, 343.13s/size]�
