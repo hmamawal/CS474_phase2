@@ -69,7 +69,7 @@ def generate_random_dfa_satisfying_spec(num_states, verbose=False, max_attempts=
     alphabet = SPEC_DFA['alphabet']
     
     # For large DFAs, use a memory-efficient approach
-    is_large_dfa = num_states >= 30000
+    is_large_dfa = num_states >= 300000
     
     # Use lists instead of sets for memory efficiency with large DFAs
     dfa_states = [f"s{i}" for i in range(num_states)]
