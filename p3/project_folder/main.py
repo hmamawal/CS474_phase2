@@ -81,6 +81,11 @@ def main():
         
         results = load_results_from_csv(args.csv_to_graph)
         if results:
+            # Count accepting DFAs in the CSV file
+            accepting_count = sum(1 for row in results if row[2] == True)
+            total_dfas = len(results)
+            print(f"📊 Found {accepting_count} accepting DFAs out of {total_dfas} total ({accepting_count/total_dfas*100:.1f}%)")
+            
             graph_results(results, outfile=args.graph_out, log_scale=args.log_scale, 
                           stats_display=args.stats_display)
             print(f"✅ Graph generation completed successfully")
@@ -134,6 +139,16 @@ def main():
     
     random.seed(args.seed)
     all_results = []
+    
+    # Track the number of accepting DFAs for each mode
+    accepting_counts = {
+        'non-satisfying': 0, 
+        'satisfying': 0
+    }
+    total_counts = {
+        'non-satisfying': 0, 
+        'satisfying': 0
+    }
     
     # Print CPU information
     cpu_count = multiprocessing.cpu_count()
@@ -190,6 +205,10 @@ def main():
                     print(f"✓ Completed size {size}: Avg time = {avg_time:.6f}s")
             
             pbar.close()
+        
+        # Update statistics for accepting DFAs
+        accepting_counts[mode_name] = sum(1 for row in results if row[2] == True)
+        total_counts[mode_name] = len(results)
         
         # Calculate statistics for this mode
         stats = calculate_statistics(results)
@@ -259,6 +278,10 @@ def main():
             
             pbar.close()
         
+        # Update statistics for accepting DFAs
+        accepting_counts[mode_name] = sum(1 for row in results if row[2] == True)
+        total_counts[mode_name] = len(results)
+        
         # Calculate statistics for this mode
         stats = calculate_statistics(results)
         print(f"\n📊 Statistics for {mode_name} DFAs:")
@@ -288,16 +311,36 @@ def main():
     graph_results(all_results, outfile=args.graph_out, log_scale=args.log_scale, stats_display=args.stats_display)
     print(f"📈 Graph saved to {args.graph_out}")
     
+    # Total accepting DFAs across all modes
+    total_accepting = sum(accepting_counts.values())
+    total_dfas_processed = len(all_results)
+    
     # Print final timing information
     total_elapsed = time.time() - experiment_start
     print("\n" + "="*60)
     print(f"✅ EXPERIMENT COMPLETED SUCCESSFULLY!")
     print(f"⏱️ Total execution time: {format_time(total_elapsed)}")
-    print(f"📊 Processed {len(all_results)} DFAs")
+    print(f"📊 Processed {total_dfas_processed} DFAs in total")
+    
+    # Print accepting DFA statistics
+    print("\n📋 DFA ACCEPTANCE STATISTICS:")
+    print(f"{'='*30}")
+    if args.mode in ['non_satisfying', 'both'] and total_counts['non-satisfying'] > 0:
+        non_sat_percent = (accepting_counts['non-satisfying'] / total_counts['non-satisfying']) * 100
+        print(f"⚠️ Non-Satisfying DFAs: {accepting_counts['non-satisfying']} / {total_counts['non-satisfying']} ({non_sat_percent:.1f}%) were accepting")
+        if accepting_counts['non-satisfying'] > 0:
+            print(f"   Note: Non-satisfying DFAs should ideally not satisfy the spec, but some randomly do")
+    
+    if args.mode in ['satisfying', 'both'] and total_counts['satisfying'] > 0:
+        sat_percent = (accepting_counts['satisfying'] / total_counts['satisfying']) * 100
+        print(f"✓ Satisfying DFAs: {accepting_counts['satisfying']} / {total_counts['satisfying']} ({sat_percent:.1f}%) were accepting")
+        if accepting_counts['satisfying'] < total_counts['satisfying']:
+            print(f"   Note: All satisfying DFAs should satisfy the spec; this indicates a possible issue")
+    
     if args.mode == 'both':
-        print(f"🔄 Tested both satisfying and non-satisfying DFAs.")
-    else:
-        print(f"🔄 Tested {args.mode} DFAs only.")
+        total_percent = (total_accepting / total_dfas_processed) * 100
+        print(f"📊 Total: {total_accepting} / {total_dfas_processed} ({total_percent:.1f}%) DFAs were accepting")
+    
     print("="*60 + "\n")
 
 if __name__ == "__main__":
