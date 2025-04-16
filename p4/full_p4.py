@@ -1,8 +1,11 @@
 import random
 import time
+import os
+import csv
 from collections import deque
 from copy import deepcopy
 import matplotlib.pyplot as plt  # added for graphing
+import numpy as np
 
 random.seed(42)  # added for reproducibility
 
@@ -226,9 +229,157 @@ def generate_random_nfa(num_states: int, alphabet: str) -> dict:
     return nfa
 
 # --------------------------
+# Helper functions for file management and results output
+# --------------------------
+def get_next_run_number():
+    """Determine the next run number by checking existing directories."""
+    results_dir = os.path.join(os.path.dirname(__file__), 'results')
+    if not os.path.exists(results_dir):
+        os.makedirs(results_dir)
+        return 1
+    
+    existing_runs = [d for d in os.listdir(results_dir) 
+                    if os.path.isdir(os.path.join(results_dir, d)) and d.startswith('run')]
+    
+    if not existing_runs:
+        return 1
+    
+    run_numbers = [int(run.replace('run', '')) for run in existing_runs 
+                  if run.replace('run', '').isdigit()]
+    
+    return max(run_numbers) + 1 if run_numbers else 1
+
+def save_results_to_csv(all_results, test_sizes, run_number):
+    """Save results to CSV files."""
+    results_dir = os.path.join(os.path.dirname(__file__), 'results', f'run{run_number}')
+    os.makedirs(results_dir, exist_ok=True)
+    
+    # Save individual trials data
+    individual_file = os.path.join(results_dir, f'individual_times.csv')
+    with open(individual_file, 'w', newline='') as f:
+        writer = csv.writer(f)
+        writer.writerow(['size', 'trial', 'finite', 'time'])
+        for i, size_results in enumerate(all_results):
+            for j, (size, finite, elapsed) in enumerate(size_results):
+                writer.writerow([size, j+1, int(finite), elapsed])
+    
+    # Save summary statistics
+    summary_file = os.path.join(results_dir, f'nfa_performance_data_run{run_number}.csv')
+    with open(summary_file, 'w', newline='') as f:
+        writer = csv.writer(f)
+        writer.writerow(['size', 'mean_time', 'median_time', 'std_dev', 'ci_lower', 'ci_upper', 'finite_percent'])
+        
+        for i, size in enumerate(test_sizes):
+            times = [r[2] for r in all_results[i]]
+            finite_count = sum(1 for r in all_results[i] if r[1])
+            mean_time = np.mean(times)
+            std_dev = np.std(times)
+            ci_lower = mean_time - 1.96 * std_dev / np.sqrt(len(times))
+            ci_upper = mean_time + 1.96 * std_dev / np.sqrt(len(times))
+            finite_percent = finite_count / len(all_results[i]) * 100
+            
+            writer.writerow([
+                size,
+                f"{mean_time:.6f}",
+                f"{np.median(times):.6f}",
+                f"{std_dev:.6f}",
+                f"{ci_lower:.6f}",
+                f"{ci_upper:.6f}",
+                f"{finite_percent:.1f}"
+            ])
+    
+    # Save summary statistics as text
+    summary_text_file = os.path.join(results_dir, f'summary_statistics.txt')
+    with open(summary_text_file, 'w') as f:
+        f.write("Summary Statistics:\n")
+        f.write("==================\n")
+        
+        for i, size in enumerate(test_sizes):
+            times = [r[2] for r in all_results[i]]
+            finite_count = sum(1 for r in all_results[i] if r[1])
+            mean_time = np.mean(times)
+            std_dev = np.std(times)
+            ci_lower = mean_time - 1.96 * std_dev / np.sqrt(len(times))
+            ci_upper = mean_time + 1.96 * std_dev / np.sqrt(len(times))
+            
+            f.write(f"Size {size}:\n")
+            f.write(f"  Mean time: {mean_time:.6f} seconds\n")
+            f.write(f"  Median time: {np.median(times):.6f} seconds\n")
+            f.write(f"  Std dev: {std_dev:.6f} seconds\n")
+            f.write(f"  95% CI: ({ci_lower:.6f}, {ci_upper:.6f})\n")
+            f.write(f"  Finite results: {finite_count}/{len(all_results[i])} ({finite_count/len(all_results[i])*100:.1f}%)\n")
+    
+    return summary_file, results_dir
+
+def analyze_and_save_plots(all_results, test_sizes, run_number):
+    """Analyze results, generate plots, and save them."""
+    results_dir = os.path.join(os.path.dirname(__file__), 'results', f'run{run_number}')
+    os.makedirs(results_dir, exist_ok=True)
+    
+    means = []
+    stdevs = []
+    
+    for size_results in all_results:
+        times = [r[2] for r in size_results]
+        means.append(np.mean(times))
+        stdevs.append(np.std(times))
+    
+    # Plot 1: Average time vs size with error bars
+    plt.figure(figsize=(12, 8))
+    plt.errorbar(test_sizes, means, yerr=stdevs, fmt='o-', capsize=5)
+    plt.xlabel('Number of states')
+    plt.ylabel('Average time (seconds)')
+    plt.title('NFA Finite Acceptance Check - Average Time with Standard Deviation')
+    plt.grid(True)
+    plt.savefig(os.path.join(results_dir, 'Figure_1.png'))
+    
+    # Plot 2: Log-log plot to identify complexity class
+    plt.figure(figsize=(12, 8))
+    plt.loglog(test_sizes, means, 'o-', label='Measured times')
+    
+    # Calculate complexity using linear regression on log-log data
+    log_sizes = np.log(test_sizes)
+    log_times = np.log(means)
+    slope, intercept = np.polyfit(log_sizes, log_times, 1)
+    r_squared = np.corrcoef(log_sizes, log_times)[0, 1]**2
+    
+    # Generate fitted line for visualization
+    fit_line = np.exp(intercept) * np.array(test_sizes)**slope
+    plt.loglog(test_sizes, fit_line, 'r--', 
+               label=f'Fitted line: O(n^{slope:.2f}), R² = {r_squared:.4f}')
+    
+    plt.xlabel('Number of states (log scale)')
+    plt.ylabel('Time (log scale)')
+    plt.title('Log-Log Plot to Identify Computational Complexity')
+    plt.legend()
+    plt.grid(True)
+    plt.savefig(os.path.join(results_dir, 'Figure_2_big_o.png'))
+    
+    # Print and return complexity analysis
+    if 0.8 <= slope <= 1.2:
+        complexity = "approximately linear - O(n)"
+    elif 1.8 <= slope <= 2.2:
+        complexity = "approximately quadratic - O(n²)"
+    elif 2.8 <= slope <= 3.2:
+        complexity = "approximately cubic - O(n³)"
+    else:
+        complexity = f"O(n^{slope:.2f})"
+    
+    complexity_info = {
+        "slope": slope,
+        "r_squared": r_squared,
+        "complexity": complexity
+    }
+    
+    return complexity_info
+
+# --------------------------
 # Testing and Timing
 # --------------------------
 def run_tests(num_trials=30):  # Run each size multiple times
+    run_number = get_next_run_number()
+    print(f"Starting test run #{run_number}")
+    
     test_sizes = [1000, 5000, 10000, 25000]#, 50000, 100000, 250000, 500000]
     all_results = []
     
@@ -250,8 +401,38 @@ def run_tests(num_trials=30):  # Run each size multiple times
         
         all_results.append(size_results)
     
-    # Process and display statistics
-    analyze_results(all_results, test_sizes)
+    # Save results to CSV
+    summary_file, results_dir = save_results_to_csv(all_results, test_sizes, run_number)
+    
+    # Process, display statistics and save plots
+    complexity_info = analyze_and_save_plots(all_results, test_sizes, run_number)
+    
+    # Print summary and complexity analysis to terminal
+    print("\nSummary Statistics:")
+    print("==================")
+    
+    for i, size in enumerate(test_sizes):
+        times = [r[2] for r in all_results[i]]
+        finite_count = sum(1 for r in all_results[i] if r[1])
+        print(f"Size {size}:")
+        print(f"  Mean time: {np.mean(times):.6f} seconds")
+        print(f"  Median time: {np.median(times):.6f} seconds")
+        print(f"  Std dev: {np.std(times):.6f} seconds")
+        print(f"  95% CI: ({np.mean(times) - 1.96*np.std(times)/np.sqrt(len(times)):.6f}, "
+              f"{np.mean(times) + 1.96*np.std(times)/np.sqrt(len(times)):.6f})")
+        print(f"  Finite results: {finite_count}/{len(all_results[i])} ({finite_count/len(all_results[i])*100:.1f}%)")
+    
+    # Print complexity analysis
+    print("\nComplexity Analysis:")
+    print("==================")
+    print(f"Measured complexity: O(n^{complexity_info['slope']:.4f})")
+    print(f"R-squared value: {complexity_info['r_squared']:.4f}")
+    print(f"Algorithm appears to be {complexity_info['complexity']}")
+    print(f"Coefficient of determination (R²): {complexity_info['r_squared']:.4f}")
+    print(f"The R² value indicates how well the power law model fits the data (closer to 1.0 is better)")
+    
+    print(f"\nResults saved to: {results_dir}")
+    
     return all_results
 
 def run_unit_tests():
@@ -316,86 +497,6 @@ def run_unit_tests():
     rand_nfa = generate_random_nfa(10, "ab")
     assert 'alphabet' in rand_nfa and 'states' in rand_nfa and 'transitions' in rand_nfa
     print("All unit tests passed.")
-
-def analyze_results(all_results, test_sizes):
-    import numpy as np
-    
-    plt.figure(figsize=(12, 8))
-    
-    # Plot 1: Average time vs size with error bars
-    plt.subplot(2, 1, 1)
-    means = []
-    stdevs = []
-    
-    for size_results in all_results:
-        times = [r[2] for r in size_results]
-        means.append(np.mean(times))
-        stdevs.append(np.std(times))
-    
-    plt.errorbar(test_sizes, means, yerr=stdevs, fmt='o-', capsize=5)
-    plt.xlabel('Number of states')
-    plt.ylabel('Average time (seconds)')
-    plt.title('NFA Finite Acceptance Check - Average Time with Standard Deviation')
-    plt.grid(True)
-    
-    # Plot 2: Log-log plot to identify complexity class
-    plt.subplot(2, 1, 2)
-    plt.loglog(test_sizes, means, 'o-', label='Measured times')
-    
-    # Calculate complexity using linear regression on log-log data
-    log_sizes = np.log(test_sizes)
-    log_times = np.log(means)
-    slope, intercept = np.polyfit(log_sizes, log_times, 1)
-    r_squared = np.corrcoef(log_sizes, log_times)[0, 1]**2
-    
-    # Generate fitted line for visualization
-    fit_line = np.exp(intercept) * np.array(test_sizes)**slope
-    plt.loglog(test_sizes, fit_line, 'r--', 
-               label=f'Fitted line: O(n^{slope:.2f}), R² = {r_squared:.4f}')
-    
-    plt.xlabel('Number of states (log scale)')
-    plt.ylabel('Time (log scale)')
-    plt.title('Log-Log Plot to Identify Computational Complexity')
-    plt.legend()
-    plt.grid(True)
-    
-    plt.tight_layout()
-    plt.show()
-    
-    # Print summary statistics
-    print("\nSummary Statistics:")
-    print("==================")
-    
-    # Print complexity analysis
-    print("\nComplexity Analysis:")
-    print("==================")
-    print(f"Measured complexity: O(n^{slope:.4f})")
-    print(f"R-squared value: {r_squared:.4f}")
-    
-    # Interpret the complexity class
-    if 0.8 <= slope <= 1.2:
-        complexity = "approximately linear - O(n)"
-    elif 1.8 <= slope <= 2.2:
-        complexity = "approximately quadratic - O(n²)"
-    elif 2.8 <= slope <= 3.2:
-        complexity = "approximately cubic - O(n³)"
-    else:
-        complexity = f"O(n^{slope:.2f})"
-    
-    print(f"Algorithm appears to be {complexity}")
-    print(f"Coefficient of determination (R²): {r_squared:.4f}")
-    print(f"The R² value indicates how well the power law model fits the data (closer to 1.0 is better)")
-    
-    for i, size in enumerate(test_sizes):
-        times = [r[2] for r in all_results[i]]
-        finite_count = sum(1 for r in all_results[i] if r[1])
-        print(f"Size {size}:")
-        print(f"  Mean time: {np.mean(times):.6f} seconds")
-        print(f"  Median time: {np.median(times):.6f} seconds")
-        print(f"  Std dev: {np.std(times):.6f} seconds")
-        print(f"  95% CI: ({np.mean(times) - 1.96*np.std(times)/np.sqrt(len(times)):.6f}, "
-              f"{np.mean(times) + 1.96*np.std(times)/np.sqrt(len(times)):.6f})")
-        print(f"  Finite results: {finite_count}/{len(all_results[i])} ({finite_count/len(all_results[i])*100:.1f}%)")
 
 if __name__ == '__main__':
     run_unit_tests()
