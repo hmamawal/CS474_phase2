@@ -5,8 +5,9 @@ import time
 from datetime import timedelta
 from tqdm import tqdm
 from utils import process_dfa, save_results_to_csv, calculate_statistics, process_dfas_in_parallel
-from visualization import graph_results
+from visualization import graph_results, load_results_from_csv
 import multiprocessing
+import os
 
 def format_time(seconds):
     """Format time in a human-readable format"""
@@ -32,6 +33,10 @@ def main():
                         help="Maximum number of worker processes for parallel execution")
     parser.add_argument("--progress", action="store_true", default=True,
                         help="Show detailed progress information")
+    parser.add_argument("--stats_display", type=str, choices=["display", "text"], default="display",
+                        help="Where to display processing statistics: 'display' (on graph) or 'text' (to file)")
+    parser.add_argument("--csv_to_graph", type=str, default=None,
+                        help="Path to an existing CSV file to graph without processing DFAs")
     
     # DFA mode selection - added new group for mode selection
     mode_group = parser.add_argument_group('DFA Mode Selection')
@@ -59,6 +64,28 @@ def main():
     
     args = parser.parse_args()
     
+    # Check if we're only generating a graph from a CSV file
+    if args.csv_to_graph:
+        if not os.path.exists(args.csv_to_graph):
+            print(f"❌ ERROR: CSV file not found: {args.csv_to_graph}")
+            return
+            
+        print("\n" + "="*60)
+        print("📊 GENERATING GRAPH FROM EXISTING CSV FILE")
+        print("="*60)
+        print(f"📂 CSV File: {args.csv_to_graph}")
+        print(f"📈 Output Graph: {args.graph_out}")
+        print(f"📊 Statistics Display: {args.stats_display}")
+        print(f"🔢 Log Scale: {args.log_scale}")
+        print("="*60 + "\n")
+        
+        results = load_results_from_csv(args.csv_to_graph)
+        if results:
+            graph_results(results, outfile=args.graph_out, log_scale=args.log_scale, 
+                          stats_display=args.stats_display)
+            print(f"✅ Graph generation completed successfully")
+        return
+    
     # Print experiment configuration
     print("\n" + "="*60)
     print("📋 DFA SUFFIX INCLUSION EXPERIMENT CONFIGURATION")
@@ -77,6 +104,7 @@ def main():
     print(f"🎲 Random seed: {args.seed}")
     print(f"📈 Using log scale for plotting: {args.log_scale}")
     print(f"⚙️ Parallel processing: {args.parallel}")
+    print(f"📊 Statistics display mode: {args.stats_display}")
     print("="*60 + "\n")
     
     # Estimate total execution time (very rough estimate)
@@ -257,7 +285,7 @@ def main():
         print(f"📊 Combined results saved to {args.outfile}")
     
     # Graph results
-    graph_results(all_results, outfile=args.graph_out, log_scale=args.log_scale)
+    graph_results(all_results, outfile=args.graph_out, log_scale=args.log_scale, stats_display=args.stats_display)
     print(f"📈 Graph saved to {args.graph_out}")
     
     # Print final timing information

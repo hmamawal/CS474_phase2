@@ -66,3 +66,9 @@ venv.bak/
 
 # Logs
 *.log
+
+*.zip
+*.pdf
+
+/paper
+p3/results
