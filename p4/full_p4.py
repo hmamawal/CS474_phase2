@@ -92,29 +92,41 @@ def compute_coreachable_states(nfa: dict, graph: dict) -> set:
 
 def has_cycle_in_subgraph(graph: dict, nodes: set) -> bool:
     """
-    Check whether the subgraph induced by 'nodes' has a cycle using DFS.
+    Check whether the subgraph induced by 'nodes' has a cycle using iterative DFS.
     """
     visited = set()
-    rec_stack = set()
     
-    def dfs(v):
-        visited.add(v)
-        rec_stack.add(v)
-        for neighbor in graph[v]:
-            if neighbor not in nodes:
-                continue
-            if neighbor not in visited:
-                if dfs(neighbor):
+    for start in nodes:
+        if start in visited:
+            continue
+            
+        # Stack stores (node, iterator_over_neighbors)
+        stack = [(start, iter([n for n in graph[start] if n in nodes]))]
+        # Track nodes in current exploration path
+        rec_stack = {start}
+        visited.add(start)
+        
+        while stack:
+            node, neighbors_iter = stack[-1]
+            
+            try:
+                # Get next neighbor
+                neighbor = next(neighbors_iter)
+                
+                if neighbor not in visited:
+                    # Visit this neighbor next
+                    visited.add(neighbor)
+                    rec_stack.add(neighbor)
+                    stack.append((neighbor, iter([n for n in graph[neighbor] if n in nodes])))
+                elif neighbor in rec_stack:
+                    # Cycle detected
                     return True
-            elif neighbor in rec_stack:
-                return True
-        rec_stack.remove(v)
-        return False
+                    
+            except StopIteration:
+                # No more neighbors, backtrack
+                rec_stack.remove(node)
+                stack.pop()
     
-    for v in nodes:
-        if v not in visited:
-            if dfs(v):
-                return True
     return False
 
 def check_finite_acceptance(nfa: dict, spec_dfa: dict) -> bool:
@@ -216,31 +228,31 @@ def generate_random_nfa(num_states: int, alphabet: str) -> dict:
 # --------------------------
 # Testing and Timing
 # --------------------------
-def run_tests():
-    # Define various sizes (each at least a few hundred states)
-    test_sizes = [200, 300, 400, 500, 600]
-    results = []
+def run_tests(num_trials=30):  # Run each size multiple times
+    test_sizes = [1000, 5000, 10000, 25000, 50000, 100000, 250000, 500000]
+    all_results = []
+    
     for size in test_sizes:
-        # Generate a random NFA with the given size.
-        nfa = generate_random_nfa(size, "AC0")
-        start_time = time.perf_counter()
-        # Run the finite acceptance check on the generated NFA.
-        finite = check_finite_acceptance(nfa, SPEC_DFA)
-        end_time = time.perf_counter()
-        elapsed = end_time - start_time
-        results.append((size, finite, elapsed))
-        print(f"NFA with {size} states: finite acceptance = {finite}, time taken = {elapsed:.6f} seconds")
-    # Graph the results
-    sizes = [r[0] for r in results]
-    times = [r[2] for r in results]
-    colors = ['green' if r[1] else 'red' for r in results]
-    plt.figure()
-    plt.scatter(sizes, times, c=colors)
-    plt.xlabel('Number of states')
-    plt.ylabel('Time taken (seconds)')
-    plt.title('NFA Finite Acceptance Check Timing')
-    plt.show()
-    return results
+        size_results = []
+        print(f"Testing NFAs with {size} states...")
+        
+        for trial in range(num_trials):
+            # Use different seeds for true randomness
+            random.seed(trial * 100 + size)  # Different seed each trial
+            nfa = generate_random_nfa(size, "AC0")
+            
+            start_time = time.perf_counter()
+            finite = check_finite_acceptance(nfa, SPEC_DFA)
+            elapsed = time.perf_counter() - start_time
+            
+            size_results.append((size, finite, elapsed))
+            print(f"  Trial {trial+1}/{num_trials}: {elapsed:.6f} seconds")
+        
+        all_results.append(size_results)
+    
+    # Process and display statistics
+    analyze_results(all_results, test_sizes)
+    return all_results
 
 def run_unit_tests():
     # Unit test for dfa_to_nfa
@@ -304,6 +316,52 @@ def run_unit_tests():
     rand_nfa = generate_random_nfa(10, "ab")
     assert 'alphabet' in rand_nfa and 'states' in rand_nfa and 'transitions' in rand_nfa
     print("All unit tests passed.")
+
+def analyze_results(all_results, test_sizes):
+    import numpy as np
+    
+    plt.figure(figsize=(12, 8))
+    
+    # Plot 1: Average time vs size with error bars
+    plt.subplot(2, 1, 1)
+    means = []
+    stdevs = []
+    
+    for size_results in all_results:
+        times = [r[2] for r in size_results]
+        means.append(np.mean(times))
+        stdevs.append(np.std(times))
+    
+    plt.errorbar(test_sizes, means, yerr=stdevs, fmt='o-', capsize=5)
+    plt.xlabel('Number of states')
+    plt.ylabel('Average time (seconds)')
+    plt.title('NFA Finite Acceptance Check - Average Time with Standard Deviation')
+    plt.grid(True)
+    
+    # Plot 2: Log-log plot to identify complexity class
+    plt.subplot(2, 1, 2)
+    plt.loglog(test_sizes, means, 'o-')
+    plt.xlabel('Number of states (log scale)')
+    plt.ylabel('Time (log scale)')
+    plt.title('Log-Log Plot to Identify Computational Complexity')
+    plt.grid(True)
+    
+    plt.tight_layout()
+    plt.show()
+    
+    # Print summary statistics
+    print("\nSummary Statistics:")
+    print("==================")
+    for i, size in enumerate(test_sizes):
+        times = [r[2] for r in all_results[i]]
+        finite_count = sum(1 for r in all_results[i] if r[1])
+        print(f"Size {size}:")
+        print(f"  Mean time: {np.mean(times):.6f} seconds")
+        print(f"  Median time: {np.median(times):.6f} seconds")
+        print(f"  Std dev: {np.std(times):.6f} seconds")
+        print(f"  95% CI: ({np.mean(times) - 1.96*np.std(times)/np.sqrt(len(times)):.6f}, "
+              f"{np.mean(times) + 1.96*np.std(times)/np.sqrt(len(times)):.6f})")
+        print(f"  Finite results: {finite_count}/{len(all_results[i])} ({finite_count/len(all_results[i])*100:.1f}%)")
 
 if __name__ == '__main__':
     run_unit_tests()

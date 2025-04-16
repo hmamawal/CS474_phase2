@@ -1,0 +1,50 @@
+Summary Statistics:
+==================
+Size 1000:
+  Mean time: 0.002547 seconds
+  Median time: 0.003494 seconds
+  Std dev: 0.002120 seconds
+  95% CI: (0.001789, 0.003306)
+  Finite results: 12/30 (40.0%)
+Size 5000:
+  Mean time: 0.017940 seconds
+  Median time: 0.024795 seconds
+  Std dev: 0.015153 seconds
+  95% CI: (0.012517, 0.023362)
+  Finite results: 12/30 (40.0%)
+Size 10000:
+  Mean time: 0.039532 seconds
+  Median time: 0.055723 seconds
+  Std dev: 0.038331 seconds
+  95% CI: (0.025815, 0.053248)
+  Finite results: 14/30 (46.7%)
+Size 25000:
+  Mean time: 0.110079 seconds
+  Median time: 0.000063 seconds
+  Std dev: 0.135650 seconds
+  95% CI: (0.061537, 0.158621)
+  Finite results: 18/30 (60.0%)
+Size 50000:
+  Mean time: 0.441701 seconds
+  Median time: 0.568980 seconds
+  Std dev: 0.332123 seconds
+  95% CI: (0.322852, 0.560549)
+  Finite results: 10/30 (33.3%)
+Size 100000:
+  Mean time: 0.769802 seconds
+  Median time: 0.685104 seconds
+  Std dev: 0.773431 seconds
+  95% CI: (0.493033, 1.046571)
+  Finite results: 15/30 (50.0%)
+Size 250000:
+  Mean time: 2.576136 seconds
+  Median time: 4.195445 seconds
+  Std dev: 2.263074 seconds
+  95% CI: (1.766306, 3.385967)
+  Finite results: 13/30 (43.3%)
+Size 500000:
+  Mean time: 4.857990 seconds
+  Median time: 4.386328 seconds
+  Std dev: 4.874986 seconds
+  95% CI: (3.113498, 6.602481)
+  Finite results: 15/30 (50.0%)
